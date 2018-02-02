@@ -1,0 +1,50 @@
+version: '2'
+services:
+  web:
+    image: 'uazlibraries/nginx-shibboleth'
+    restart: always
+    tty: true
+    links:
+      - fpm
+      - db-host
+    ports:
+      - "80:80"
+    environment:
+      - DB_HOST=db-host
+      - DB_NAME=filesender
+      - DB_USER=filesender
+      - DB_PASSWORD=filesender
+      - FILESENDER_DOMAIN=localhost
+
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+
+  fpm:
+    image: 'filesender-phpfpm'
+    restart: always
+    links:
+      - db-host
+    environment:
+      - SMTP_SERVER=smtpgate.mail.arizona.edu
+      - FILESENDER_DOMAIN=localhost
+      - CHOWN_WWW=333
+    volumes:
+      - filesender:/opt/filesender
+      - simplesaml:/opt/simplesamlphp
+      - ./data:/data
+
+  db-host:
+    image: 'mysql'
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=insecure
+      - MYSQL_DATABASE=filesender
+      - MYSQL_USER=filesender
+      - MYSQL_PASSWORD=filesender
+      - MYSQL_ALLOW_EMPTY_PASSWORD='false'
+    volumes:
+      - ./mysqldb:/var/lib/mysql
+
+volumes:
+  filesender:
+  simplesaml:
