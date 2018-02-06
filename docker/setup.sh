@@ -111,6 +111,8 @@ if [ -e /usr/bin/mysql ]; then
   fi
 fi
 
+chown -R www-data.www-data /opt/*
+
 # Check if www-data's uid:gid has been requested to be changed
 NEW_UID=${CHOWN_WWW%%:*}
 NEW_GID=${CHOWN_WWW##*:}
@@ -123,6 +125,6 @@ if [ "$NEW_UID" != "" ]; then
     # Change old $USER_ID to $NEW_UID, similarly old $GROUP_ID->$NEW_GID
     groupmod -g $NEW_GID $USER
     usermod -u $NEW_UID $USER
-    find / -path /proc -prune -group $GROUP_ID -exec chgrp -h $USER {} \;
-    find / -path /proc -prune -user $USER_ID -exec chown -h $USER {} \;
+    find / -type d -path /proc -prune -o -group $GROUP_ID -exec chgrp -h $USER {} \;
+    find / -type d -path /proc -prune -o -user $USER_ID -exec chown -h $USER {} \;
 fi

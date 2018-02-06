@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-NETWORK=host
+NETWORK=${5:-host}
 
 TAG=${4:-latest}
 CONTAINER=${3:-filsender-test}
@@ -29,6 +29,22 @@ if [ "$ACTION" = "DEBUG" ]; then
     DEBUG="--user root -it --entrypoint /bin/bash"
 fi
 
+if [ "$ACTION" = "COMPOSE" ]; then
+
+NETWORK=test_default
+
+docker run --user root -it --entrypoint /bin/bash \
+       --net=$NETWORK \
+       --link db-host:test_db-host_1 \
+       -e DB_HOST="db-host" \
+       --tmpfs /var/log/php-fpm:uid=33,gid=33,mode=755,noexec,nodev,nosuid \
+       --tmpfs /run/lock:uid=0,gid=0,mode=1777,noexec,nodev \
+       --tmpfs /run/php:uid=33,gid=33,mode=775,noexec,nodev,nosuid \
+       --name $CONTAINER \
+       $REPOSITORY:$TAG
+
+else
+
 docker run $DAEMONIZE $DEBUG \
        --net=$NETWORK \
        --tmpfs /var/log/php-fpm:uid=33,gid=33,mode=755,noexec,nodev,nosuid \
@@ -36,3 +52,5 @@ docker run $DAEMONIZE $DEBUG \
        --tmpfs /run/php:uid=33,gid=33,mode=775,noexec,nodev,nosuid \
        --name $CONTAINER \
        $REPOSITORY:$TAG
+
+fi
