@@ -1,5 +1,4 @@
 FROM uazlibraries/debian-php-fpm:latest
-#FROM debian-php-fpm:latest
 
 ENV FILESENDER_V=2.0-beta2 SSP_V=1.15.0
 
@@ -16,16 +15,5 @@ ADD conf /opt/conf
 RUN chown -R www-data.www-data /opt/*
 
 VOLUME ["/opt/filesender", "/opt/simplesamlphp"]
-
-#RUN apk add --no-cache libmcrypt-dev \
-#                       pcre-dev \
-#                       ssmtp
-#
-#RUN docker-php-ext-install pdo_mysql \
-#                           mcrypt \
-#                           opcache
-
-#ADD www-pool.conf /usr/local/etc/php-fpm.d/www.conf
-#ADD docker-entrypoint.sh /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

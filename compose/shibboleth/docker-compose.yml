@@ -1,51 +1,47 @@
 version: '2'
 services:
   web:
-    build: ./web
+    image: 'uazlibraries/nginx-shibboleth'
     restart: always
     tty: true
     links:
       - fpm
-      - db-host
-      - shib
     ports:
       - "80:80"
-      - "443:443"
     environment:
-      - DB_HOST=db-host
-      - DB_NAME=filesender
-      - DB_USER=filesender
-      - DB_PASSWORD=filesender
-      - FILESENDER_DOMAIN=preservation-dev.library.arizona.edu
-      - SAML_MAIL_ATTR=urn:oid:0.9.2342.19200300.100.1.3
-      - SAML_NAME_ATTR=urn:oid:2.16.840.1.113730.3.1.241
-      - SAML_UID_ATTR=urn:oid:0.9.2342.19200300.100.1.1
+      - FILESENDER_DOMAIN=localhost
 
     volumes:
+      - run.php:/run/php
+      - run.shibboleth:/run/shibboleth
       - filesender:/opt/filesender
       - simplesaml:/opt/simplesamlphp
-      - shibboleth:/run/shibboleth
-      - /etc/nginx:/etc/nginx
+      - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    build: ./fpm
+    image: 'filesender-phpfpm'
     restart: always
     links:
       - db-host
     environment:
       - SMTP_SERVER=smtpgate.mail.arizona.edu
-      - FILESENDER_DOMAIN=preservation-dev.library.arizona.edu
+      - FILESENDER_DOMAIN=localhost
+      - DB_HOST=db-host
+      - DB_NAME=filesender
+      - DB_USER=filesender
+      - DB_PASSWORD=filesender
+      - CHOWN_WWW=333
     volumes:
+      - run.php:/run/php
       - filesender:/opt/filesender
       - simplesaml:/opt/simplesamlphp
-      - /mnt/incoming/filesender:/data
 
   shib:
     image: 'uazlibraries/shibboleth-fastcgi'
     restart: always
     volumes:
-      - /etc/shibboleth:/etc/shibboleth
-      - shibboleth:/run/shibboleth
+      - ./shibboleth:/etc/shibboleth
+      - run.shibboleth:/run/shibboleth
 
   db-host:
     image: 'mysql'
@@ -56,10 +52,9 @@ services:
       - MYSQL_USER=filesender
       - MYSQL_PASSWORD=filesender
       - MYSQL_ALLOW_EMPTY_PASSWORD='false'
-    volumes:
-      - /var/lib/mysql:/var/lib/mysql
 
 volumes:
-  shibboleth:
+  run.php:
+  run.shibboleth:
   filesender:
   simplesaml:

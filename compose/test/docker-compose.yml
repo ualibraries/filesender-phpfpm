@@ -10,11 +10,13 @@ services:
     ports:
       - "80:80"
     environment:
+      - DB_HOST=db-host
+      - DB_NAME=filesender
+      - DB_USER=filesender
+      - DB_PASSWORD=filesender
       - FILESENDER_DOMAIN=localhost
 
     volumes:
-      - filesender:/opt/filesender
-      - simplesaml:/opt/simplesamlphp
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
@@ -22,19 +24,14 @@ services:
     restart: always
     links:
       - db-host
-    ports:
-      - "9000:9000"
     environment:
       - SMTP_SERVER=smtpgate.mail.arizona.edu
       - FILESENDER_DOMAIN=localhost
-      - DB_HOST=db-host
-      - DB_NAME=filesender
-      - DB_USER=filesender
-      - DB_PASSWORD=filesender
       - CHOWN_WWW=333
     volumes:
       - filesender:/opt/filesender
       - simplesaml:/opt/simplesamlphp
+      - ./data:/data
 
   db-host:
     image: 'mysql'
@@ -45,6 +42,8 @@ services:
       - MYSQL_USER=filesender
       - MYSQL_PASSWORD=filesender
       - MYSQL_ALLOW_EMPTY_PASSWORD='false'
+    volumes:
+      - ./mysqldb:/var/lib/mysql
 
 volumes:
   filesender:

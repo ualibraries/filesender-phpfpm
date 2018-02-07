@@ -4,14 +4,14 @@ upstream php-handler {
 
 server {
     listen 80;
-    server_name repository-stg.library.arizona.edu;
+    server_name localhost;
     # enforce https
     return 302 https://$server_name$request_uri;
 }
 
 server {
   listen 443 ssl http2;
-  server_name repository-stg.library.arizona.edu;
+  server_name localhost;
 
   ssl_certificate     /etc/nginx/certs/host.crt;
   ssl_certificate_key /etc/nginx/certs/host.key;
@@ -55,9 +55,9 @@ server {
     include shib_fastcgi_params;
 
     # Enable to spoof or quickly test filesender with shibboleth authentication
-    #fastcgi_param HTTP_SHIB_CN 'Test User';
-    #fastcgi_param HTTP_SHIB_UID 'test_username';
-    #fastcgi_param HTTP_SHIB_MAIL 'test_user@abcde.edu';
+    fastcgi_param HTTP_SHIB_CN 'Test User';
+    fastcgi_param HTTP_SHIB_UID 'test_username';
+    fastcgi_param HTTP_SHIB_MAIL 'test_user@abcde.edu';
 
     fastcgi_split_path_info  ^(.+\.php)(/.+)$;
     fastcgi_param HTTPS on;
