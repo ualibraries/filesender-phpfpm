@@ -9,10 +9,14 @@ mv filesender-filesender-$FILESENDER_V filesender && \
 curl -L https://github.com/simplesamlphp/simplesamlphp/releases/download/v${SSP_V}/simplesamlphp-${SSP_V}.tar.gz | tar xz && \
 mv simplesamlphp-${SSP_V} simplesamlphp
 
-ADD docker/* /
+# Add filesender and simplesamlphp configuration to /opt/conf
 ADD conf /opt/conf
 
+# Ensure correct runtime permissions - php-fpm runs as www-data
 RUN chown -R www-data.www-data /opt/*
+
+# Add setup and startup config files to /
+ADD docker/* /
 
 VOLUME ["/opt/filesender", "/opt/simplesamlphp"]
 
