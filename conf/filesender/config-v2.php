@@ -46,8 +46,8 @@
 //              General settings
 // ---------------------------------------------
 // 
-$config['site_url'] = 'https://{FILESENDER_DOMAIN}/';                // String, URL of the application
-$config['site_logouturl'] = 'https://{FILESENDER_DOMAIN}/login.php';
+$config['site_url'] = '{FILESENDER_URL}';                // String, URL of the application
+$config['site_logouturl'] = '{FILESENDER_URL}/login.php';
 $config['admin'] = '{ADMIN_USERS}';            // String, UID's (from  $config['saml_uid_attribute']) 
                                     // that have Administrator permissions
 $config['admin_email'] ='{ADMIN_EMAIL}';       // String, email  address(es, separated by ,) 
@@ -295,18 +295,24 @@ $config['storage_filesystem_path'] = '/data/';
 // If you want to overide the SAML simplephp configuration defaults parameter,
 // uncoment and edit the following lines
 // 
-// // Authentification type ('saml' or 'shibboleth')
-//$config['auth_sp_type'] = 'saml';
-//$config['auth_sp_saml_authentication_source'] = 'example-cas';
-//$config['auth_sp_saml_authentication_source'] = 'static-user';
-//$config['auth_sp_saml_email_attribute'] = '{SAML_MAIL_ATTR}';
-//$config['auth_sp_saml_uid_attribute'] = '{SAML_UID_ATTR}';
-//$config['auth_sp_saml_name_attribute'] = '{SAML_NAME_ATTR}';
+// Authentification type ('saml' or 'shibboleth' or 'fake' )
+$config['auth_sp_type'] = '{FILESENDER_AUTHTYPE}';
 
-$config['auth_sp_type'] = 'shibboleth';
+# simplesamlphp configuration
+$config['auth_sp_saml_authentication_source'] = 'example-cas';
+$config['auth_sp_saml_email_attribute'] = '{MAIL_ATTR}';
+$config['auth_sp_saml_uid_attribute'] = '{UID_ATTR}';
+$config['auth_sp_saml_name_attribute'] = '{NAME_ATTR}';
+
+# shibboleth configuration
 $config['auth_sp_shibboleth_login_url'] = '/Shibboleth.sso/Login?target={target}';
 $config['auth_sp_shibboleth_logout_url'] = '/Shibboleth.sso/Logout?return={target}';
-$config['auth_sp_shibboleth_email_attribute'] = 'HTTP_SHIB_MAIL';
-$config['auth_sp_shibboleth_uid_attribute'] = 'HTTP_SHIB_UID';
-$config['auth_sp_shibboleth_name_attribute'] = 'HTTP_SHIB_CN';
+$config['auth_sp_shibboleth_email_attribute'] = '{MAIL_ATTR}';
+$config['auth_sp_shibboleth_uid_attribute'] = '{UID_ATTR}';
+$config['auth_sp_shibboleth_name_attribute'] = '{NAME_ATTR}';
 
+# fake authentication configuration
+$config['auth_sp_fake_authenticated'] = true;
+$config['auth_sp_fake_email'] = '{MAIL_ATTR}';
+$config['auth_sp_fake_uid'] = '{UID_ATTR}';
+$config['auth_sp_fake_name'] = '{NAME_ATTR}';

@@ -6,6 +6,8 @@ USER='www-data'
 USER_ID='33'
 GROUP_ID='33'
 
+FILESENDER_SERIES=${FILESENDER_V%%.*}
+FILESENDER_AUTHTYPE=${FILESENDER_AUTHTYPE:-shibboleth}
 FILESENDER_DOMAIN=${FILESENDER_DOMAIN:-localhost}
 SMTP_SERVER=${SMTP_SERVER:-localhost}
 
@@ -68,22 +70,23 @@ fi
 if [ -f ${CONF_DIR}/filesender/config.php ]; then
     cp ${CONF_DIR}/filesender/config.php ${FILESENDER_DIR}/config/config.php
 else 
-    cat ${CONF_DIR}/filesender/config-template.php | \
+    cat ${CONF_DIR}/filesender/config-v${FILESENDER_SERIES}.php | \
     sed \
-	-e "s/{FILESENDER_DOMAIN}/${FILESENDER_DOMAIN:-localhost}/g" \
+	-e "s/{FILESENDER_DOMAIN}/${FILESENDER_DOMAIN}/g" \
+	-e "s/{FILESENDER_AUTHTYPE}/${FILESENDER_AUTHTYPE}/g" \
 	-e "s/{DB_HOST}/${DB_HOST}/g" \
 	-e "s/{DB_NAME}/${DB_NAME}/g" \
 	-e "s/{DB_USER}/${DB_USER}/g" \
 	-e "s/{DB_PASSWORD}/${DB_PASSWORD}/g" \
 	-e "s/{ADMIN_USERS}/${ADMIN_USERS:-admin}/g" \
 	-e "s/{ADMIN_EMAIL}/${ADMIN_EMAIL:-admin@abcde.edu}/g" \
-	-e "s/{SAML_MAIL_ATTR}/${SAML_MAIL_ATTR:-mail}/g" \
-	-e "s/{SAML_NAME_ATTR}/${SAML_NAME_ATTR:-displayName}/g" \
-	-e "s/{SAML_UID_ATTR}/${SAML_UID_ATTR:-uid}/g" \
+	-e "s/{MAIL_ATTR}/${MAIL_ATTR:-HTTP_SHIB_MAIL}/g" \
+	-e "s/{NAME_ATTR}/${NAME_ATTR:-HTTP_SHIB_CN}/g" \
+	-e "s/{UID_ATTR}/${UID_ATTR:-HTTP_SHIB_UID}/g" \
     > ${FILESENDER_DIR}/config/config.php
 fi
 
-if [ "${FILESENDER_V%%.*}" = "2" ]; then
+if [ "$FILESENDER_SERIES" = "2" ]; then
   mkdir ${FILESENDER_DIR}/log
   ln -s /tmp ${FILESENDER_DIR}/tmp
 fi
@@ -97,7 +100,7 @@ if [ -e /usr/bin/mysql ]; then
     RESULT=`nc -z -w1 ${DB_HOST} 3306 && echo 1 || echo 0`
   done
 
-  if [ "${FILESENDER_V%%.*}" = "1" ]; then
+  if [ "$FILESENDER_SERIES" = "1" ]; then
     SQL_FILE=${FILESENDER_DIR}/scripts/mysql_filesender_db.sql
 
     cat ${CONF_DIR}/filesender/mysql_filesender_db.sql ${SQL_FILE} | \

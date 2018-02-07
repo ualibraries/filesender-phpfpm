@@ -6,17 +6,15 @@ services:
     tty: true
     links:
       - fpm
-      - db-host
     ports:
       - "80:80"
     environment:
-      - DB_HOST=db-host
-      - DB_NAME=filesender
-      - DB_USER=filesender
-      - DB_PASSWORD=filesender
       - FILESENDER_DOMAIN=localhost
 
     volumes:
+      - run.php:/run/php
+      - filesender:/opt/filesender
+      - simplesaml:/opt/simplesamlphp
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
@@ -27,11 +25,15 @@ services:
     environment:
       - SMTP_SERVER=smtpgate.mail.arizona.edu
       - FILESENDER_DOMAIN=localhost
+      - DB_HOST=db-host
+      - DB_NAME=filesender
+      - DB_USER=filesender
+      - DB_PASSWORD=filesender
       - CHOWN_WWW=333
     volumes:
+      - run.php:/run/php
       - filesender:/opt/filesender
       - simplesaml:/opt/simplesamlphp
-      - ./data:/data
 
   db-host:
     image: 'mysql'
@@ -42,9 +44,8 @@ services:
       - MYSQL_USER=filesender
       - MYSQL_PASSWORD=filesender
       - MYSQL_ALLOW_EMPTY_PASSWORD='false'
-    volumes:
-      - ./mysqldb:/var/lib/mysql
 
 volumes:
+  run.php:
   filesender:
   simplesaml:
