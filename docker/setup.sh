@@ -99,15 +99,18 @@ else
 fi
 
 if [ "$FILESENDER_AUTHTYPE" = "shibboleth" ]; then
+  # Attributes passed via environment variables from shibboleth
   MAIL_ATTR=${MAIL_ATTR:-"HTTP_SHIB_MAIL"}
   NAME_ATTR=${NAME_ATTR:-"HTTP_SHIB_CN"}
   UID_ATTR=${UID_ATTR:-"HTTP_SHIB_UID"}
 else
 if [ "$FILESENDER_AUTHTYPE" = "fake" ]; then
+  # Manually set attribute values for v2.0 "fake authentication"
   MAIL_ATTR=${MAIL_ATTR:-"fakeuser@abcde.edu"}
   NAME_ATTR=${NAME_ATTR:-"Fake User"}
   UID_ATTR=${UID_ATTR:-"fakeuser"}
 else
+  # Attributes passed from simplesamlphp
   MAIL_ATTR=${MAIL_ATTR:-"mail"}
   NAME_ATTR=${NAME_ATTR:-"cn"}
   UID_ATTR=${UID_ATTR:-"uid"}
