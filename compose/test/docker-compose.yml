@@ -18,7 +18,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    image: 'uazlibraries/filesender-phpfpm:1.6'
+    image: 'filesender-phpfpm:1.6'
     restart: always
     links:
       - db-host
@@ -26,7 +26,8 @@ services:
       - SMTP_SERVER=smtpgate.email.arizona.edu
       - ADMIN_EMAIL=admin@abcde.edu
       - FILESENDER_URL=http://localhost
-      - FILESENDER_AUTHTYPE=static-user
+      - FILESENDER_AUTHTYPE=saml
+      - FILESENDER_AUTHSAML=static-user
       - DB_HOST=db-host
       - DB_NAME=filesender
       - DB_USER=filesender
