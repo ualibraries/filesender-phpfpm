@@ -23,7 +23,7 @@ services:
     links:
       - db-host
     environment:
-      - SMTP_SERVER=smtpgate.email.arizona.edu
+      - SMTP_SERVER=smtpgate.mail.arizona.edu
       - ADMIN_EMAIL=admin@abcde.edu
       - FILESENDER_URL=http://localhost
       - FILESENDER_AUTHTYPE=fake
