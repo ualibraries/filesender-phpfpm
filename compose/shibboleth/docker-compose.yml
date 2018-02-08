@@ -8,6 +8,7 @@ services:
       - fpm
     ports:
       - "80:80"
+      - "443:443"
     environment:
       - FILESENDER_DOMAIN=localhost
 
@@ -16,17 +17,22 @@ services:
       - run.shibboleth:/run/shibboleth
       - filesender:/opt/filesender
       - simplesaml:/opt/simplesamlphp
+      - ./shibboleth:/etc/shibboleth
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    image: 'uazlibraries/filesender-phpfpm:2.0-beta2'
+    image: 'filesender-phpfpm:2.0-beta2'
     restart: always
     links:
       - db-host
     environment:
       - SMTP_SERVER=smtpgate.email.arizona.edu
       - ADMIN_EMAIL=admin@abcde.edu
-      - FILESENDER_URL=http://localhost
+      - FILESENDER_URL=https://150.135.119.0
+      - FILESENDER_AUTHTYPE=shibboleth
+      - MAIL_ATTR=EPPN
+      - NAME_ATTR=EPPN
+      - UID_ATTR=EPPN
       - DB_HOST=db-host
       - DB_NAME=filesender
       - DB_USER=filesender

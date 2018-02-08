@@ -5,7 +5,7 @@ upstream php-handler {
 
 server {
   listen 80;
-  server_name localhost;
+  server_name 150.135.119.0;
 
   error_page   500 502 503 504  /50x.html; 
 
@@ -34,6 +34,10 @@ server {
       try_files $uri $uri/ /login.php; 
   }
 
+  location /shibboleth-sp/ {
+      alias /etc/shibboleth;
+  }
+          
   location ~ (index|rest)\.php {
 
     include shib_clear_headers;

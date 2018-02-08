@@ -40,7 +40,7 @@ log4j.additivity.Shibboleth-TRANSACTION=false
 #log4j.category.Shibboleth-TRANSACTION.Logout=WARN
 
 # define the appenders
-
+# /var/log/shibboleth/shibd.log
 log4j.appender.shibd_log=org.apache.log4j.RollingFileAppender
 log4j.appender.shibd_log.fileName=/var/log/shibboleth/shibd.log
 log4j.appender.shibd_log.maxFileSize=1000000
@@ -48,6 +48,13 @@ log4j.appender.shibd_log.maxBackupIndex=10
 log4j.appender.shibd_log.layout=org.apache.log4j.PatternLayout
 log4j.appender.shibd_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S} %p %c %x: %m%n
 
+# shibd.log console output
+log4j.appender.shibd_log=org.apache.log4j.ConsoleAppender
+log4j.appender.shibd_log.target=System.out
+log4j.appender.shibd_log.layout=org.apache.log4j.PatternLayout
+log4j.appender.shibd_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S} %p %c %x: %m%n
+
+# /var/log/shibboleth/shibd_warn.log
 log4j.appender.warn_log=org.apache.log4j.RollingFileAppender
 log4j.appender.warn_log.fileName=/var/log/shibboleth/shibd_warn.log
 log4j.appender.warn_log.maxFileSize=1000000
@@ -56,6 +63,14 @@ log4j.appender.warn_log.layout=org.apache.log4j.PatternLayout
 log4j.appender.warn_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S} %p %c %x: %m%n
 log4j.appender.warn_log.threshold=WARN
 
+# shibd_warn.log console output
+log4j.appender.warn_log=org.apache.log4j.ConsoleAppender
+log4j.appender.warn_log.target=System.err
+log4j.appender.warn_log.layout=org.apache.log4j.PatternLayout
+log4j.appender.warn_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S} %p %c %x: %m%n
+log4j.appender.warn_log.threshold=WARN
+
+# /var/log/shibboleth/transaction.log
 log4j.appender.tran_log=org.apache.log4j.RollingFileAppender
 log4j.appender.tran_log.fileName=/var/log/shibboleth/transaction.log
 log4j.appender.tran_log.maxFileSize=1000000
@@ -63,7 +78,20 @@ log4j.appender.tran_log.maxBackupIndex=20
 log4j.appender.tran_log.layout=org.apache.log4j.PatternLayout
 log4j.appender.tran_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S} %p %c %x: %m%n
 
+# transaction.log console output
+log4j.appender.tran_log=org.apache.log4j.ConsoleAppender
+log4j.appender.tran_log.target=System.out
+log4j.appender.tran_log.layout=org.apache.log4j.PatternLayout
+log4j.appender.tran_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S} %p %c %x: %m%n
+
+# /var/log/shibboleth/signature.log
 log4j.appender.sig_log=org.apache.log4j.FileAppender
 log4j.appender.sig_log.fileName=/var/log/shibboleth/signature.log
+log4j.appender.sig_log.layout=org.apache.log4j.PatternLayout
+log4j.appender.sig_log.layout.ConversionPattern=%m
+
+# signature.log console output
+log4j.appender.sig_log=org.apache.log4j.ConsoleAppender
+log4j.appender.sig_log.target=System.err
 log4j.appender.sig_log.layout=org.apache.log4j.PatternLayout
 log4j.appender.sig_log.layout.ConversionPattern=%m

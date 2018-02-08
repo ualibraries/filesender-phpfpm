@@ -26,14 +26,14 @@ https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPConfiguration
             below.
             --><!--
             <Host name="mple.org" -->
-        <Host name="localhost"
+        <Host name="150.135.119.0"
                 authType="shibboleth"
-                requireSession="true">
-            <!--  redirectToSSL="443" -->
+                requireSession="true"
+                redirectToSSL="443">
             <!-- Path name="/" / -->
             <!-- Path name="/shibboleth-login"/ -->
-            <Path name="/index.php"><Query name="s"/></Path>
-            <!-- Path name="/rest.php"/ -->
+            <Path name="/index.php"/>
+            <Path name="/rest.php"/>
             <!-- Path name="/rest"/ -->
             <!-- Path name="/Shibboleth.sso" / -->
                 <!-- Path name="secure" authType="shibboleth" requireSession="true"/ -->
@@ -46,7 +46,7 @@ https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPConfiguration
     </RequestMapper>
     
     <!-- The entityID is the name TestShib made for your SP. -->
-    <ApplicationDefaults entityID="https://dockerhub-uazlibraries.shibboleth-fastcgi.org/shibboleth"
+    <ApplicationDefaults entityID="https://150.135.119.0/shibboleth"
         REMOTE_USER="eppn">
 
         <!-- You should use secure cookies if at all possible.  See cookieProps in this Wiki article. -->
@@ -84,7 +84,7 @@ https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPConfiguration
         </Sessions>
 
         <!-- Error pages to display to yourself if something goes horribly wrong. -->
-        <Errors supportContact="root@localhost" logoLocation="/shibboleth-sp/logo.jpg" 
+        <Errors supportContact="root@150.135.119.0" logoLocation="/shibboleth-sp/logo.jpg" 
                 styleSheet="/shibboleth-sp/main.css"/>
 
         <!-- Loads and trusts a metadata file that describes only the Testshib IdP and how to communicate with it. -->
