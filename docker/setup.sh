@@ -28,13 +28,22 @@ if [ ! -f "${SSMTP_CONF}.default" ] && [ -f "$SSMTP_CONF" ]; then
   mv "$SSMTP_CONF" "${SSMTP_CONF}.default"
 fi
 
-cat <<EOF > /etc/ssmtp/ssmtp.conf
+cat <<EOF > $SSMTP_CONF
 root=$ADMIN_EMAIL
 mailhub=$SMTP_SERVER
 hostname=localhost
 FromLineOverride=yes
+UseTLS=yes
 UseSTARTTLS=yes
 EOF
+
+if [ "$SMTP_USER" != "" ]; then
+  echo "AuthUser=$SMTP_USER" >> $SSMTP_CONF
+fi
+if [ "$SMTP_PSWD" != "" ]; then
+  echo "AuthPass=$SMTP_PSWD" >> $SSMTP_CONF
+  echo "AuthMethod=LOGIN" >> $SSMTP_CONF
+fi
 
 # simplesaml.php setup:
 
