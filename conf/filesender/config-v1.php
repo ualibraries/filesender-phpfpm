@@ -111,7 +111,7 @@ public function loadConfig() {
 	// Terasender (fast upload) settings
 	// - terasender (really fast uploads) uses html5 web workers to speed up file upload
 	// - effectively providing multi-threaded faster uploads
-	$config['terasender'] = false; // true/false
+	$config['terasender'] = true; // true/false
 	$config['terasenderadvanced'] = false; // true/false - terasender advanced - show advanced settings
 	$config['terasender_chunksize'] = 5;		// default (5) terasender chunk size in MB
 	$config['terasender_workerCount'] = 6;		// default (6) worker count
@@ -125,23 +125,19 @@ public function loadConfig() {
 	$config['emailRegEx'] = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 
 	// site URL settings
-	if ( isset($_SERVER['SERVER_NAME']) ) {
-	$prot =  isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-	//$config['site_url'] = $prot . $_SERVER['SERVER_NAME'] . '/filesender/'; // URL to Filesender
-	$config['site_url'] = $prot . $_SERVER['SERVER_NAME'] . '/'; // URL to Filesender
-	$config['site_simplesamlurl'] =  $prot . $_SERVER['SERVER_NAME'] . '/simplesaml/';
-	$config['site_authenticationSource'] ="default-sp";
+	$config['site_url'] = '{FILESENDER_URL}/'; // URL to Filesender
+	$config['site_simplesamlurl'] = '{FILESENDER_URL}/simplesaml/';
+	$config['site_authenticationSource'] ="{FILESENDER_AUTHTYPE}";
 	$config['site_logouturl'] = $config['site_url'] . '?s=logout';
-	}
-	$config['forceSSL'] = isset($_SERVER['HTTPS']); // Always use SSL (true/false)
+	$config['forceSSL'] = strpos($config['site_url'],'https') == 0; // Always use SSL (true/false)
 
 	// Support links
 	$config['aboutURL'] = "";
 	$config['helpURL'] = "";
 
 	// (absolute) file locations
-	$config['site_filestore'] = '/opt/filesender/files/';
-	$config['site_temp_filestore'] = '/opt/filesender/tmp/';
+	$config['site_filestore'] = '/data/';
+	$config['site_temp_filestore'] = '/tmp/';
 	$config['site_simplesamllocation'] = '/opt/simplesamlphp/';
 	$config['log_location'] = '/opt/filesender/log/';
 

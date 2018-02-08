@@ -100,11 +100,11 @@ $config = array(
 
     'static-user' => array(
         'exampleauth:Static',
-        'uid' => array('testuser'),
-        'eduPersonPrincipalName' => array('testuser'),
-        'mail' => array('glbrimhall@email.arizona.edu'),
+        'uid' => array('fakeuser'),
+        'eduPersonPrincipalName' => array('fakeuser'),
+        'mail' => array('fakeuser@abcde.org'),
         'eduPersonAffiliation' => array('member', 'employee'),
-        'cn' => array('Test User'),
+        'cn' => array('Fake User'),
     ),
 
     /*

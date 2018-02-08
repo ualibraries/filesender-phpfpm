@@ -9,7 +9,7 @@ services:
     ports:
       - "80:80"
     environment:
-      - FILESENDER_DOMAIN=localhost
+      - SERVER_DOMAIN=localhost
 
     volumes:
       - run.php:/run/php
@@ -23,13 +23,14 @@ services:
     links:
       - db-host
     environment:
-      - SMTP_SERVER=smtpgate.mail.arizona.edu
-      - FILESENDER_DOMAIN=localhost
+      - SMTP_SERVER=smtpgate.email.arizona.edu
+      - ADMIN_EMAIL=admin@abcde.edu
+      - FILESENDER_URL=http://localhost
+      - FILESENDER_AUTHTYPE=static-user
       - DB_HOST=db-host
       - DB_NAME=filesender
       - DB_USER=filesender
       - DB_PASSWORD=filesender
-      - CHOWN_WWW=333
     volumes:
       - run.php:/run/php
       - filesender:/opt/filesender

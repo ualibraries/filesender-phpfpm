@@ -1,4 +1,4 @@
-#!/bin/sh
+!/bin/bash
 
 set -x
 
@@ -8,7 +8,8 @@ GROUP_ID='33'
 
 FILESENDER_SERIES=${FILESENDER_V%%.*}
 FILESENDER_AUTHTYPE=${FILESENDER_AUTHTYPE:-shibboleth}
-FILESENDER_DOMAIN=${FILESENDER_DOMAIN:-localhost}
+FILESENDER_URL=${FILESENDER_URL:-"http://localhost"}
+ADMIN_EMAIL=${ADMIN_EMAIL:-admin@abcde.edu}
 SMTP_SERVER=${SMTP_SERVER:-localhost}
 
 CONF_DIR="/opt/conf"
@@ -22,7 +23,18 @@ DB_USER=${DB_USER:-filesender}
 DB_PASSWORD=${DB_PASSWORD:-filesender}
 
 # Update smtp configuration
-printf "root=postmaster\nmailhub=${SMTP_SERVER}\nhostname=\"${FILESENDER_DOMAIN}\"\n" > /etc/ssmtp/ssmtp.conf
+SSMTP_CONF=/etc/ssmtp/ssmtp.conf
+if [ ! -f "${SSMTP_CONF}.default" ] && [ -f "$SSMTP_CONF" ]; then
+  mv "$SSMTP_CONF" "${SSMTP_CONF}.default"
+fi
+
+cat <<EOF > /etc/ssmtp/ssmtp.conf
+root=$ADMIN_EMAIL
+mailhub=$SMTP_SERVER
+hostname=localhost
+FromLineOverride=yes
+UseSTARTTLS=yes
+EOF
 
 # simplesaml.php setup:
 
@@ -63,8 +75,24 @@ done
 mkdir /data
 chown -R $USER.$USER /data
 
-if [ -f ${CONF_DIR}/filesender/login.php ]; then
-    cp ${CONF_DIR}/filesender/login.php ${FILESENDER_DIR}/www/login.php
+if [ "$FILESENDER_SERIES" = "2" ]; then
+
+  if [ -f ${CONF_DIR}/filesender/login.php ]; then
+      cp ${CONF_DIR}/filesender/login.php ${FILESENDER_DIR}/www/login.php
+  fi
+    
+  mkdir ${FILESENDER_DIR}/log
+  ln -s /tmp ${FILESENDER_DIR}/tmp
+
+  MAIL_ATTR=${MAIL_ATTR:-"HTTP_SHIB_MAIL"}
+  NAME_ATTR=${NAME_ATTR:-"HTTP_SHIB_CN"}
+  UID_ATTR=${UID_ATTR:-"HTTP_SHIB_UID"}
+  FILESENDER_AUTHTYPE=${FILESENDER_AUTHTYPE:-"shibboleth"}
+else
+  MAIL_ATTR=${MAIL_ATTR:-"mail"}
+  NAME_ATTR=${NAME_ATTR:-"cn"}
+  UID_ATTR=${UID_ATTR:-"uid"}
+  FILESENDER_AUTHTYPE=${FILESENDER_AUTHTYPE:-"sp-default"}
 fi
 
 if [ -f ${CONF_DIR}/filesender/config.php ]; then
@@ -72,24 +100,20 @@ if [ -f ${CONF_DIR}/filesender/config.php ]; then
 else 
     cat ${CONF_DIR}/filesender/config-v${FILESENDER_SERIES}.php | \
     sed \
-	-e "s/{FILESENDER_DOMAIN}/${FILESENDER_DOMAIN}/g" \
-	-e "s/{FILESENDER_AUTHTYPE}/${FILESENDER_AUTHTYPE}/g" \
-	-e "s/{DB_HOST}/${DB_HOST}/g" \
-	-e "s/{DB_NAME}/${DB_NAME}/g" \
-	-e "s/{DB_USER}/${DB_USER}/g" \
-	-e "s/{DB_PASSWORD}/${DB_PASSWORD}/g" \
-	-e "s/{ADMIN_USERS}/${ADMIN_USERS:-admin}/g" \
-	-e "s/{ADMIN_EMAIL}/${ADMIN_EMAIL:-admin@abcde.edu}/g" \
-	-e "s/{MAIL_ATTR}/${MAIL_ATTR:-HTTP_SHIB_MAIL}/g" \
-	-e "s/{NAME_ATTR}/${NAME_ATTR:-HTTP_SHIB_CN}/g" \
-	-e "s/{UID_ATTR}/${UID_ATTR:-HTTP_SHIB_UID}/g" \
+      -e "s|{FILESENDER_URL}|${FILESENDER_URL}|g" \
+      -e "s|{FILESENDER_AUTHTYPE}|${FILESENDER_AUTHTYPE}|g" \
+      -e "s|{DB_HOST}|${DB_HOST}|g" \
+      -e "s|{DB_NAME}|${DB_NAME}|g" \
+      -e "s|{DB_USER}|${DB_USER}|g" \
+      -e "s|{DB_PASSWORD}|${DB_PASSWORD}|g" \
+      -e "s|{ADMIN_USERS}|${ADMIN_USERS:-admin}|g" \
+      -e "s|{ADMIN_EMAIL}|${ADMIN_EMAIL}|g" \
+      -e "s|{MAIL_ATTR}|${MAIL_ATTR}|g" \
+      -e "s|{NAME_ATTR}|${NAME_ATTR}|g" \
+      -e "s|{UID_ATTR}|${UID_ATTR}|g" \
     > ${FILESENDER_DIR}/config/config.php
 fi
 
-if [ "$FILESENDER_SERIES" = "2" ]; then
-  mkdir ${FILESENDER_DIR}/log
-  ln -s /tmp ${FILESENDER_DIR}/tmp
-fi
 
 if [ -e /usr/bin/mysql ]; then
   RESULT=`nc -z -w1 ${DB_HOST} 3306 && echo 1 || echo 0`
@@ -105,7 +129,7 @@ if [ -e /usr/bin/mysql ]; then
 
     cat ${CONF_DIR}/filesender/mysql_filesender_db.sql ${SQL_FILE} | \
     sed \
-      -e "s/{DB_NAME}/${DB_NAME}/g" \
+      -e "s|{DB_NAME}|${DB_NAME}|g" \
     > "${SQL_FILE}"
 
     mysql -h ${DB_HOST} -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME} < ${SQL_FILE}

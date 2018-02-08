@@ -46,15 +46,14 @@
 //              General settings
 // ---------------------------------------------
 // 
-$config['site_url'] = '{FILESENDER_URL}';                // String, URL of the application
+$config['site_url'] = '{FILESENDER_URL}/'; // String, URL of the application
 $config['site_logouturl'] = '{FILESENDER_URL}/login.php';
-$config['admin'] = '{ADMIN_USERS}';            // String, UID's (from  $config['saml_uid_attribute']) 
+$config['admin'] = '{ADMIN_USERS}'; // String, UID's (from  $config['saml_uid_attribute']) 
                                     // that have Administrator permissions
 $config['admin_email'] ='{ADMIN_EMAIL}';       // String, email  address(es, separated by ,) 
                                     			// to receive administrative messages (low disk  space warning)
 
 $config['session_cookie_path'] = '/';
-
 
 // ---------------------------------------------
 //              Language settings
