@@ -93,15 +93,25 @@ if [ "$FILESENDER_SERIES" = "2" ]; then
   mkdir ${FILESENDER_DIR}/log
   ln -s /tmp ${FILESENDER_DIR}/tmp
 
+  FILESENDER_AUTHTYPE=${FILESENDER_AUTHTYPE:-"shibboleth"}
+else
+  FILESENDER_AUTHTYPE=${FILESENDER_AUTHTYPE:-"sp-default"}
+fi
+
+if [ "$FILESENDER_AUTHTYPE" = "shibboleth" ]; then
   MAIL_ATTR=${MAIL_ATTR:-"HTTP_SHIB_MAIL"}
   NAME_ATTR=${NAME_ATTR:-"HTTP_SHIB_CN"}
   UID_ATTR=${UID_ATTR:-"HTTP_SHIB_UID"}
-  FILESENDER_AUTHTYPE=${FILESENDER_AUTHTYPE:-"shibboleth"}
+else
+if [ "$FILESENDER_AUTHTYPE" = "fake" ]; then
+  MAIL_ATTR=${MAIL_ATTR:-"fakeuser@abcde.edu"}
+  NAME_ATTR=${NAME_ATTR:-"Fake User"}
+  UID_ATTR=${UID_ATTR:-"fakeuser"}
 else
   MAIL_ATTR=${MAIL_ATTR:-"mail"}
   NAME_ATTR=${NAME_ATTR:-"cn"}
   UID_ATTR=${UID_ATTR:-"uid"}
-  FILESENDER_AUTHTYPE=${FILESENDER_AUTHTYPE:-"sp-default"}
+fi
 fi
 
 if [ -f ${CONF_DIR}/filesender/config.php ]; then
