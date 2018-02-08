@@ -298,7 +298,7 @@ $config['storage_filesystem_path'] = '/data/';
 $config['auth_sp_type'] = '{FILESENDER_AUTHTYPE}';
 
 # simplesamlphp configuration
-$config['auth_sp_saml_authentication_source'] = 'example-cas';
+$config['auth_sp_saml_authentication_source'] = '{FILESENDER_AUTHSAML}';
 $config['auth_sp_saml_email_attribute'] = '{MAIL_ATTR}';
 $config['auth_sp_saml_uid_attribute'] = '{UID_ATTR}';
 $config['auth_sp_saml_name_attribute'] = '{NAME_ATTR}';

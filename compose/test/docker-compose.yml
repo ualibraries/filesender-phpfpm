@@ -18,15 +18,16 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    image: 'uazlibraries/filesender-phpfpm:2.0-beta2'
+    image: 'filesender-phpfpm:2.0-beta2'
     restart: always
     links:
       - db-host
     environment:
-      - SMTP_SERVER=smtpgate.mail.arizona.edu
+      - SMTP_SERVER=smtpgate.email.arizona.edu
       - ADMIN_EMAIL=admin@abcde.edu
       - FILESENDER_URL=http://localhost
-      - FILESENDER_AUTHTYPE=fake
+      - FILESENDER_AUTHTYPE=saml
+      - FILESENDER_AUTHSAML=static-user
       - DB_HOST=db-host
       - DB_NAME=filesender
       - DB_USER=filesender

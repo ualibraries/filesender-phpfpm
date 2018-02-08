@@ -111,6 +111,7 @@ if [ "$FILESENDER_AUTHTYPE" = "fake" ]; then
   UID_ATTR=${UID_ATTR:-"fakeuser"}
 else
   # Attributes passed from simplesamlphp
+  FILESENDER_AUTHSAML=${FILESENDER_AUTHSAML:-"sp-default"}
   MAIL_ATTR=${MAIL_ATTR:-"mail"}
   NAME_ATTR=${NAME_ATTR:-"cn"}
   UID_ATTR=${UID_ATTR:-"uid"}
@@ -124,6 +125,7 @@ else
     sed \
       -e "s|{FILESENDER_URL}|${FILESENDER_URL}|g" \
       -e "s|{FILESENDER_AUTHTYPE}|${FILESENDER_AUTHTYPE}|g" \
+      -e "s|{FILESENDER_AUTHSAML}|${FILESENDER_AUTHSAML}|g" \
       -e "s|{DB_HOST}|${DB_HOST}|g" \
       -e "s|{DB_NAME}|${DB_NAME}|g" \
       -e "s|{DB_USER}|${DB_USER}|g" \
