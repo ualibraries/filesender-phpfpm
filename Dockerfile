@@ -15,6 +15,16 @@ ADD conf /opt/conf
 # Ensure correct runtime permissions - php-fpm runs as www-data
 RUN chown -R www-data.www-data /opt/*
 
+# Change php-fpm to listen on a unix socket
+RUN \
+sed -i -e 's|^listen|;listen|g' /etc/php/7.0/fpm/pool.d/zz-docker.conf && \
+sed -i \
+ -e 's|^listen = 127|;listen = 127|g' \
+sed -i -e 's|^;listen = /|listen = /|g' /etc/php/7.0/fpm/pool.d/www.conf && \
+sed -i -e 's|^;listen.o = /|listen.o = /|g' /etc/php/7.0/fpm/pool.d/www.conf && \
+sed -i -e 's|^;listen.g = /|listen.g = /|g' /etc/php/7.0/fpm/pool.d/www.conf && \
+sed -i -e 's|^;listen.m = /|listen.m = /|g' /etc/php/7.0/fpm/pool.d/www.conf
+
 # Add setup and startup config files to /
 ADD docker/* /
 

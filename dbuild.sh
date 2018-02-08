@@ -15,10 +15,10 @@ docker rm $CONTAINER
 
 if [ "$ACTION" = "BUILD" ]; then
 # Delete test image built from docker file
-#docker image rm $REPOSITORY:$TAG
+docker image rm $REPOSITORY:$TAG
 
 # Create test image from docker file
-docker build -t $REPOSITORY:$TAG .
+docker build --rm -t $REPOSITORY:$TAG .
 
 ACTION=DEBUG
 
