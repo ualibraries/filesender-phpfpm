@@ -1,16 +1,23 @@
-# filesender-phpfpm:2.0-beta2
-## Info
+# filesender-phpfpm:2.0-beta2 #
+[TOC]
+# Info
+# Dependencies
+# Environment Variables
+# simplesamlphp
+# shibboleth
+
+## Info ##
 Docker image of filesender running within php-fpm, with nginx listening in front.
 
 This is the 2.0-beta2 production release of filesender, which can use  simplesamlphp or shibboleth for authentication.
 
-## Dependencies
+## Dependencies ##
 Filesender requires the following environment dependencies:
 1. An smtp server to send emails. For the examples located in the compose/ directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
-2. If using shibboleth authentication instead of simplesamlphp, a public IP address to send saml payloads to, ie not one of the [private IPs](https://en.wikipedia.org/wiki/Private_network) beginning with 10.x, 172.x, or 192.168.x. If the docker image is running on a private IP behind a router NAT, it might be possible for the router to forward the saml payloads through https to the private IP as long as the router has been given a public IP. For production deployments, a ssl cert associated with a public DNS entry is the ideal situation.
-3. For production deployments, planned disk capacity to store uploaded files.
+* If using shibboleth authentication instead of simplesamlphp, a public IP address to send saml payloads to, ie not one of the [private IPs](https://en.wikipedia.org/wiki/Private_network) beginning with 10.x, 172.x, or 192.168.x. If the docker image is running on a private IP behind a router NAT, it might be possible for the router to forward the saml payloads through https to the private IP as long as the router has been given a public IP. For production deployments, a ssl cert associated with a public DNS entry is the ideal situation.
+* For production deployments, planned disk capacity to store uploaded files.
 
-## Environment Variables
+## Environment Variables ##
 
 The following environment variables control the docker setup:
 
@@ -35,24 +42,24 @@ The following environment variables control the docker setup:
 * ADMIN_EMAIL - email address of the filesender admin account, must be valid
 * ADMIN_USERS - the set of user accounts that should be considered administrators
 * ADMIN_PSWD - the password to use for the admin account 
-* SIMPLESAML_MODULES - the list of simplesaml [module directories](https://github.com/simplesamlphp/simplesamlphp/tree/master/modules) to enable for authentication and filtering. Usually enabling one of these modules requires setting configuration settings for it in the authsources.php file.
+* SIMPLESAML_MODULES - the space seperated list of simplesaml [module directories](https://github.com/simplesamlphp/simplesamlphp/tree/master/modules) to enable for authentication and filtering. Usually enabling one of these modules requires setting configuration settings for it in the authsources.php file.
 * SIMPLESAML_SALT - an optional simplesaml salt value to use. A value will get auto-generated on first time startup if missing.
 
-## simplesamlphp
+## simplesamlphp ##
 Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfpm/tree/master/compose) directory for a [docker-compose](https://docs.docker.com/compose/overview/) example of how to quickly setup filesender with a fake user account using simplesamlphp.
 
-```
+```sh
 
 cd compose/simplesaml
 docker-compose up
 
-In your browser, enter "http://localhost"
+browse to <http://localhost>
 
 ```
 
 Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/). Look at it's documentation for more details. In each case the authsources.php file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have docker mounting to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
 
-## shibboleth
+## shibboleth ##
 Look at the compose/shibboleth directory for a [docker-compose](https://docs.docker.com/compose/overview/) example of how to test filesender with shibboleth using [testshib.org](http://www.testshib.org/). The following config files need modifying, replacing the ip address 150.135.119.0 with your machine's ip address.
 
 Then follow the [REGISTER](http://www.testshib.org/register.html) instructions at testshib.org to registor your shibboleth instance. If all goes well you should be able to authenticate.
