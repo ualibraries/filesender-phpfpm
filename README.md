@@ -1,21 +1,16 @@
-# filesender-phpfpm:2.0-beta2 #
-[TOC]
-# Info
-# Dependencies
-# Environment Variables
-# simplesamlphp
-# shibboleth
+# filesender-phpfpm:1.6 #
 
 ## Info ##
-Docker image of filesender running within php-fpm, with nginx listening in front.
+[Docker](https://www.docker.com/what-docker) image of [filesender](http://filesender.org/) running within [php-fpm](https://php-fpm.org/), with [nginx](https://www.nginx.com/) providing the webserver in front. All of the docker images are based off of [Debian](https://www.debian.org/) stable.
 
-This is the 2.0-beta2 production release of filesender, which can use  simplesamlphp or shibboleth for authentication.
+This [release of filesender](https://github.com/filesender/filesender) can use [simplesamlphp](https://simplesamlphp.org/) for authentication.
 
 ## Dependencies ##
-Filesender requires the following environment dependencies:
-1. An smtp server to send emails. For the examples located in the compose/ directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
-* If using shibboleth authentication instead of simplesamlphp, a public IP address to send saml payloads to, ie not one of the [private IPs](https://en.wikipedia.org/wiki/Private_network) beginning with 10.x, 172.x, or 192.168.x. If the docker image is running on a private IP behind a router NAT, it might be possible for the router to forward the saml payloads through https to the private IP as long as the router has been given a public IP. For production deployments, a ssl cert associated with a public DNS entry is the ideal situation.
-* For production deployments, planned disk capacity to store uploaded files.
+This docker image of filesender requires the following environment dependencies:
+1. [docker-compose](https://docs.docker.com/compose/overview/) is installed on the system.
+2. An smtp server to send emails. For the examples located in the compose/ directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
+3. If using shibboleth authentication instead of simplesamlphp, a public IP address for the remote shibboleth-idp to send responses back to the local shibboleth-sp through nginx. If the docker image is running on a [private IP](https://en.wikipedia.org/wiki/Private_network) behind a router NAT, it might be possible for the router to forward the shibboleth-idp responses through https to the private IP as long as the router has been given a public IP. For production deployments, a ssl cert associated with a public DNS entry is the ideal situation.
+4. For production deployments, planned disk capacity to store uploaded files.
 
 ## Environment Variables ##
 
@@ -53,15 +48,9 @@ Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfp
 cd compose/simplesaml
 docker-compose up
 
-browse to <http://localhost>
-
 ```
 
+Then browse to [http://localhost](http://localhost)
+
 Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/). Look at it's documentation for more details. In each case the authsources.php file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have docker mounting to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
-
-## shibboleth ##
-Look at the compose/shibboleth directory for a [docker-compose](https://docs.docker.com/compose/overview/) example of how to test filesender with shibboleth using [testshib.org](http://www.testshib.org/). The following config files need modifying, replacing the ip address 150.135.119.0 with your machine's ip address.
-
-Then follow the [REGISTER](http://www.testshib.org/register.html) instructions at testshib.org to registor your shibboleth instance. If all goes well you should be able to authenticate.
-
 
