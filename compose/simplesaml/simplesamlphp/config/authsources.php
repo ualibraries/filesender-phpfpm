@@ -102,7 +102,7 @@ $config = array(
         'exampleauth:Static',
         'uid' => array('fakeuser'),
         'eduPersonPrincipalName' => array('fakeuser'),
-        'mail' => array('fakeuser@abcde.org'),
+        'mail' => array('dockertestfilesender@gmail.com'),
         'eduPersonAffiliation' => array('member', 'employee'),
         'cn' => array('Fake User'),
     ),

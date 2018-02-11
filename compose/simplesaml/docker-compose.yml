@@ -8,9 +8,6 @@ services:
       - fpm
     ports:
       - "80:80"
-    environment:
-      - SERVER_DOMAIN=localhost
-
     volumes:
       - run.php:/run/php
       - filesender:/opt/filesender
@@ -18,13 +15,16 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    image: 'filesender-phpfpm:2.0-beta2'
+    image: 'uazlibraries/filesender-phpfpm:2.0-beta2'
     restart: always
     links:
       - db-host
     environment:
-      - SMTP_SERVER=smtpgate.email.arizona.edu
-      - ADMIN_EMAIL=admin@abcde.edu
+      - SMTP_SERVER=smtp.gmail.com:587
+      - SMTP_USER=dockertestfilesender
+      - SMTP_PSWD=thisisalongpassword
+      - ADMIN_EMAIL=dockertestfilesender@gmail.com
+      - ADMIN_PSWD=password
       - FILESENDER_URL=http://localhost
       - FILESENDER_AUTHTYPE=saml
       - FILESENDER_AUTHSAML=static-user
@@ -36,6 +36,7 @@ services:
       - run.php:/run/php
       - filesender:/opt/filesender
       - simplesaml:/opt/simplesamlphp
+      - ./simplesamlphp/config/authsources.php:/opt/simplesamlphp/config/authsources.php
 
   db-host:
     image: 'mysql'

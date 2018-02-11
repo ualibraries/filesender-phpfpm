@@ -10,7 +10,7 @@ curl -L https://github.com/simplesamlphp/simplesamlphp/releases/download/v${SSP_
 mv simplesamlphp-${SSP_V} simplesamlphp
 
 # Add filesender and simplesamlphp configuration to /opt/conf
-ADD conf /opt/conf
+ADD template /opt/template
 
 # Ensure correct runtime permissions - php-fpm runs as www-data
 RUN chown -R www-data.www-data /opt/*
@@ -20,4 +20,4 @@ ADD docker/* /
 
 VOLUME ["/opt/filesender", "/opt/simplesamlphp"]
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/entrypoint.sh"]

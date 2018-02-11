@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 set -x
 
@@ -12,7 +12,7 @@ FILESENDER_URL=${FILESENDER_URL:-"http://localhost"}
 ADMIN_EMAIL=${ADMIN_EMAIL:-admin@abcde.edu}
 SMTP_SERVER=${SMTP_SERVER:-localhost}
 
-CONF_DIR="/opt/conf"
+TEMPLATE_DIR="/opt/template"
 FILESENDER_DIR="/opt/filesender"
 SIMPLESAML_DIR="/opt/simplesamlphp"
 SIMPLESAML_MODULES="cas exampleauth"
@@ -22,7 +22,39 @@ DB_NAME=${DB_NAME:-filesender}
 DB_USER=${DB_USER:-filesender}
 DB_PASSWORD=${DB_PASSWORD:-filesender}
 
-# Update smtp configuration
+function sed_file {
+  if [ "$2" = "" ]; then
+    SRCFILE="$1.default"
+    DSTFILE="$1"
+    if [ ! -f "$SRCFILE" ]; then
+      cp "$1" "$SRCFILE"
+    fi
+  else
+    SRCFILE="$1"
+    DSTFILE="$2"
+  fi
+
+  cat "$SRCFILE" | sed \
+    -e "s|{FILESENDER_URL}|${FILESENDER_URL}|g" \
+    -e "s|{FILESENDER_AUTHTYPE}|${FILESENDER_AUTHTYPE}|g" \
+    -e "s|{FILESENDER_AUTHSAML}|${FILESENDER_AUTHSAML}|g" \
+    -e "s|{DB_HOST}|${DB_HOST}|g" \
+    -e "s|{DB_NAME}|${DB_NAME}|g" \
+    -e "s|{DB_USER}|${DB_USER}|g" \
+    -e "s|{DB_PASSWORD}|${DB_PASSWORD}|g" \
+    -e "s|{ADMIN_USERS}|${ADMIN_USERS:-admin}|g" \
+    -e "s|{ADMIN_EMAIL}|${ADMIN_EMAIL}|g" \
+    -e "s|{ADMIN_PSWD}|${ADMIN_PSWD}|g" \
+    -e "s|{SIMPLESAML_SALT}|${SIMPLESAML_SALT}|g" \
+    -e "s|'123'|\'${ADMIN_PSWD}\'|g" \
+    -e "s|'defaultsecretsalt'|\'${SIMPLESAML_SALT}\'|g" \
+    -e "s|{MAIL_ATTR}|${MAIL_ATTR}|g" \
+    -e "s|{NAME_ATTR}|${NAME_ATTR}|g" \
+    -e "s|{UID_ATTR}|${UID_ATTR}|g" \
+   > "$DSTFILE"
+}
+
+# ssmtp setup
 SSMTP_CONF=/etc/ssmtp/ssmtp.conf
 if [ ! -f "${SSMTP_CONF}.default" ] && [ -f "$SSMTP_CONF" ]; then
   mv "$SSMTP_CONF" "${SSMTP_CONF}.default"
@@ -31,7 +63,6 @@ fi
 cat <<EOF > $SSMTP_CONF
 root=$ADMIN_EMAIL
 mailhub=$SMTP_SERVER
-hostname=localhost
 FromLineOverride=yes
 UseTLS=yes
 UseSTARTTLS=yes
@@ -47,35 +78,17 @@ fi
 
 # simplesaml.php setup:
 
-if [ -f ${CONF_DIR}/simplesamlphp/saml20-idp-remote.php ]; then
-   echo "Copying SAML2 remote IdP metadata file..."
-   cp ${CONF_DIR}/simplesamlphp20-idp-remote.php ${SIMPLESAML_DIR}/metadata/saml20-idp-remote.php
+if [ "$SIMPLESAML_SALT" = "" ]; then
+  SIMPLESAML_SALT=`tr -c -d '0123456789abcdefghijklmnopqrstuvwxyz' </dev/urandom | dd bs=32 count=1 2>/dev/null;echo`
 fi
 
-if [ -f ${CONF_DIR}/simplesamlphp/config.php ]; then
-   echo "Copying SAML2 config file..."
-   cp ${CONF_DIR}/simplesamlphp/config.php ${SIMPLESAML_DIR}/config/config.php
-fi
-
-if [ -f ${CONF_DIR}/simplesamlphp/authsources.php ]; then
-   echo "Copying SAML2 authsources file..."
-   cp ${CONF_DIR}/simplesamlphp/authsources.php ${SIMPLESAML_DIR}/config/authsources.php
-fi
-
-if [ -d ${CONF_DIR}/simplesamlphp/metadata-import ]; then
-   echo "Copying SAML2 metadata import directory..."
-   cp -r ${CONF_DIR}/simplesamlphp/metadata-import ${SIMPLESAML_DIR}/metadata
-fi
-
-if [ -d ${CONF_DIR}/simplesamlphp/cert ]; then
-   echo "Copying certificates to SimpleSAMLphp cert dir..."
-   cp -r ${CONF_DIR}/simplesamlphp/cert ${SIMPLESAML_DIR}
-fi
+sed_file "${SIMPLESAML_DIR}/config/config.php"
+sed_file "${SIMPLESAML_DIR}/config/authsources.php"
 
 for MODULE in $SIMPLESAML_MODULES; do
-   if [ -d ${SIMPLESAML_DIR}/modules/$MODULE ]; then
-      touch ${SIMPLESAML_DIR}/modules/$MODULE/enable
-   fi
+  if [ -d ${SIMPLESAML_DIR}/modules/$MODULE ]; then
+    touch ${SIMPLESAML_DIR}/modules/$MODULE/enable
+  fi
 done         
 
 # filesender setup:
@@ -85,9 +98,8 @@ mkdir /data
 chown -R $USER.$USER /data
 
 if [ "$FILESENDER_SERIES" = "2" ]; then
-
-  if [ -f ${CONF_DIR}/filesender/login.php ]; then
-      cp ${CONF_DIR}/filesender/login.php ${FILESENDER_DIR}/www/login.php
+  if [ -f ${TEMPLATE_DIR}/filesender/login.php ]; then
+    cp ${TEMPLATE_DIR}/filesender/login.php ${FILESENDER_DIR}/www/login.php
   fi
     
   mkdir ${FILESENDER_DIR}/log
@@ -118,26 +130,11 @@ else
 fi
 fi
 
-if [ -f ${CONF_DIR}/filesender/config.php ]; then
-    cp ${CONF_DIR}/filesender/config.php ${FILESENDER_DIR}/config/config.php
+if [ -f ${TEMPLATE_DIR}/filesender/config.php ]; then
+  cp ${TEMPLATE_DIR}/filesender/config.php ${FILESENDER_DIR}/config/config.php
 else 
-    cat ${CONF_DIR}/filesender/config-v${FILESENDER_SERIES}.php | \
-    sed \
-      -e "s|{FILESENDER_URL}|${FILESENDER_URL}|g" \
-      -e "s|{FILESENDER_AUTHTYPE}|${FILESENDER_AUTHTYPE}|g" \
-      -e "s|{FILESENDER_AUTHSAML}|${FILESENDER_AUTHSAML}|g" \
-      -e "s|{DB_HOST}|${DB_HOST}|g" \
-      -e "s|{DB_NAME}|${DB_NAME}|g" \
-      -e "s|{DB_USER}|${DB_USER}|g" \
-      -e "s|{DB_PASSWORD}|${DB_PASSWORD}|g" \
-      -e "s|{ADMIN_USERS}|${ADMIN_USERS:-admin}|g" \
-      -e "s|{ADMIN_EMAIL}|${ADMIN_EMAIL}|g" \
-      -e "s|{MAIL_ATTR}|${MAIL_ATTR}|g" \
-      -e "s|{NAME_ATTR}|${NAME_ATTR}|g" \
-      -e "s|{UID_ATTR}|${UID_ATTR}|g" \
-    > ${FILESENDER_DIR}/config/config.php
+  sed_file ${TEMPLATE_DIR}/filesender/config-v${FILESENDER_SERIES}.php ${FILESENDER_DIR}/config/config.php
 fi
-
 
 if [ -e /usr/bin/mysql ]; then
   RESULT=`nc -z -w1 ${DB_HOST} 3306 && echo 1 || echo 0`
@@ -151,10 +148,7 @@ if [ -e /usr/bin/mysql ]; then
   if [ "$FILESENDER_SERIES" = "1" ]; then
     SQL_FILE=${FILESENDER_DIR}/scripts/mysql_filesender_db.sql
 
-    cat ${CONF_DIR}/filesender/mysql_filesender_db.sql ${SQL_FILE} | \
-    sed \
-      -e "s|{DB_NAME}|${DB_NAME}|g" \
-    > "${SQL_FILE}"
+    sed_file ${TEMPLATE_DIR}/filesender/mysql_filesender_db.sql "${SQL_FILE}"
 
     mysql -h ${DB_HOST} -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME} < ${SQL_FILE}
   else
@@ -169,13 +163,13 @@ NEW_UID=${CHOWN_WWW%%:*}
 NEW_GID=${CHOWN_WWW##*:}
 
 if [ "$NEW_GID" = "" ]; then
-    NEW_GID=$NEW_UID
+  NEW_GID=$NEW_UID
 fi
 
 if [ "$NEW_UID" != "" ]; then
-    # Change old $USER_ID to $NEW_UID, similarly old $GROUP_ID->$NEW_GID
-    groupmod -g $NEW_GID $USER
-    usermod -u $NEW_UID $USER
-    find / -type d -path /proc -prune -o -group $GROUP_ID -exec chgrp -h $USER {} \;
-    find / -type d -path /proc -prune -o -user $USER_ID -exec chown -h $USER {} \;
+  # Change old $USER_ID to $NEW_UID, similarly old $GROUP_ID->$NEW_GID
+  groupmod -g $NEW_GID $USER
+  usermod -u $NEW_UID $USER
+  find / -type d -path /proc -prune -o -group $GROUP_ID -exec chgrp -h $USER {} \;
+  find / -type d -path /proc -prune -o -user $USER_ID -exec chown -h $USER {} \;
 fi

@@ -6,7 +6,7 @@ NETWORK=${5:-host}
 TAG=${4:-2.0-beta2}
 CONTAINER=${3:-filsender-test}
 REPOSITORY=${2:-filesender-phpfpm}
-ACTION=${1}
+ACTION=${1:-BUILD}
 DAEMONIZE=-d
 
 # Delete test container built from docker file

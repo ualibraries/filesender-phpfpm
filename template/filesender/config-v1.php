@@ -127,7 +127,7 @@ public function loadConfig() {
 	// site URL settings
 	$config['site_url'] = '{FILESENDER_URL}/'; // URL to Filesender
 	$config['site_simplesamlurl'] = '{FILESENDER_URL}/simplesaml/';
-	$config['site_authenticationSource'] ="{FILESENDER_AUTHTYPE}";
+	$config['site_authenticationSource'] ="{FILESENDER_AUTHSAML}";
 	$config['site_logouturl'] = $config['site_url'] . '?s=logout';
 	$config['forceSSL'] = strpos($config['site_url'],'https') == 0; // Always use SSL (true/false)
 
