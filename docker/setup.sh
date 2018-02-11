@@ -64,10 +64,12 @@ cat <<EOF > $SSMTP_CONF
 root=$ADMIN_EMAIL
 mailhub=$SMTP_SERVER
 FromLineOverride=yes
-UseTLS=yes
-UseSTARTTLS=yes
 EOF
 
+if [ "$SMTP_TLS" != "" ]; then
+  echo "UseTLS=yes" >> $SSMTP_CONF
+  echo "UseSTARTTLS=yes" >> $SSMTP_CONF
+fi
 if [ "$SMTP_USER" != "" ]; then
   echo "AuthUser=$SMTP_USER" >> $SSMTP_CONF
 fi
