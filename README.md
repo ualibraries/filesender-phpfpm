@@ -8,7 +8,7 @@ This [release of filesender](https://github.com/filesender/filesender) can use [
 ## Dependencies ##
 This docker image of filesender requires the following environment dependencies:
 1. [docker-compose](https://docs.docker.com/compose/overview/) is installed on the system.
-2. An smtp server to send emails. For the examples located in the compose/ directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
+2. An smtp server to send emails. For the examples located in the [compose/](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose) directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
 3. If using shibboleth authentication instead of simplesamlphp, a public IP address for the remote shibboleth-idp to send responses back to the local shibboleth-sp through nginx. If the docker image is running on a [private IP](https://en.wikipedia.org/wiki/Private_network) behind a router NAT, it might be possible for the router to forward the shibboleth-idp responses through https to the private IP as long as the router has been given a public IP. For production deployments, a ssl cert associated with a public DNS entry is the ideal situation.
 4. For production deployments, planned disk capacity to store uploaded files.
 
@@ -41,9 +41,9 @@ The following environment variables control the docker setup:
 * SIMPLESAML_SALT - an optional simplesaml salt value to use. A value will get auto-generated on first time startup if missing.
 
 ## simplesamlphp ##
-Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfpm/tree/master/compose) directory for a [docker-compose](https://docs.docker.com/compose/overview/) example of how to quickly setup filesender with a fake user account using simplesamlphp.
+Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/1.6/compose/simplesaml/docker-compose.yml) example of how to quickly setup filesender with a fake user account using simplesamlphp.
 
-```sh
+```
 
 cd compose/simplesaml
 docker-compose up
@@ -52,5 +52,5 @@ docker-compose up
 
 Then browse to [http://localhost](http://localhost)
 
-Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/). Look at it's documentation for more details. In each case the authsources.php file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have docker mounting to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
+Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/docs/stable/simplesamlphp-idp). Look at it's documentation for more details. In each case the authsources.php file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have docker mounting to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
 
