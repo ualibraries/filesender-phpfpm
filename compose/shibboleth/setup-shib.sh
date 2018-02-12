@@ -132,4 +132,4 @@ echo "RERUN: to redo this setup, delete $METADATA_FILE and re-run ./setup-shib.s
 echo
 echo "REGISTER this shibboleth instance by uploading file $SETUP_DIR/$METADATA_FILE to https://www.testshib.org/register.html#"
 echo
-echo "FINALLY browse to https://$HOSTIP .You will need to accept any error indicating the https ssl cert is invalid or not private"
+echo "FINALLY browse to https://$HOSTIP .You will need to accept any error indicating the https ssl cert is invalid or not private since a self-signed cert is being used instead of an ssl certificate registered with a certificate authority"
