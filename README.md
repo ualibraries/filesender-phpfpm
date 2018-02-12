@@ -52,7 +52,7 @@ docker-compose up
 
 ```
 
-Three docker containers will be created, validated by running _docker ps -a_
+Three docker containers will be created, validate by running _docker ps -a_
 
 * simplesaml_web_1 - contains nginx
 * simplesaml_fpm_1 - contains filesender running under fpm. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of simplesamlphp configuration should get mounted to this container under /opt/simplesamlphp/config
@@ -72,7 +72,7 @@ cd filesender-phpfpm/compose/shibboleth
 
 ```
 
-Four docker containers will be created, validated by running _docker ps -a_
+Four docker containers will be created, validate by running _docker ps -a_
 
 * shibboleth_web_1 - contains nginx
 * shibboleth_fpm_1 - contains filesender running under fpm.
@@ -81,7 +81,7 @@ Four docker containers will be created, validated by running _docker ps -a_
 
 If you have a DNS name pointing to a public IP, run:
 
-[./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh) <dns_name>
+[./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh) **dns_name**
 
 Otherwise, just run in the shell
 
@@ -93,4 +93,4 @@ After running, follow the instructions [./setup.sh](https://github.com/ualibrari
 
 Finally, browse to the URL given at the end of [./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh)
 
-For production deployments, most organizations have a sample /etc/shibboleth/  that needs just a few configuration tweaks to connect the local shibboleth-sp docker image to the organization's shibboleth-idp. Typically this tweaked /etc/shibboleth directory would be [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the shibboleth-sp docker image.
+For production deployments, most organizations have a sample /etc/shibboleth/  that needs just a few configuration tweaks to connect the local shibboleth-sp docker image to the organization's shibboleth-idp. This tweaked /etc/shibboleth directory should be [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the shibboleth-sp docker container.
