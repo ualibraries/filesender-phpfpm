@@ -9,7 +9,7 @@ This [release of filesender](https://github.com/filesender/filesender) can use [
 This docker image of filesender requires the following environment dependencies:
 1. [docker-compose](https://docs.docker.com/compose/overview/) is installed on the system.
 2. An smtp server to send emails. For the examples located in the [compose/](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose) directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
-3. If using shibboleth authentication instead of simplesamlphp, a public IP address for the remote shibboleth-idp to send responses back to the local shibboleth-sp through nginx. If the docker image is running on a [private IP](https://en.wikipedia.org/wiki/Private_network) behind a router NAT, it might be possible for the router to forward the shibboleth-idp responses through https to the private IP as long as the router has been given a public IP. For production deployments, a ssl cert associated with a public DNS entry is the ideal situation.
+3. If using shibboleth authentication instead of simplesamlphp, a public IP address for the remote shibboleth-idp to send responses back to the local shibboleth-sp through nginx. If the docker image is running on a [private IP](https://en.wikipedia.org/wiki/Private_network) behind a router NAT, it might be possible for the router to forward the shibboleth-idp responses through https to the private IP as long as the router has been given a public IP. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
 4. For production deployments, planned disk capacity to store uploaded files.
 
 ## Environment Variables ##
@@ -33,7 +33,8 @@ The following environment variables control the docker setup:
 * SMTP_SERVER - the SMTP server to send email through. It must be a valid server for filesender to work.
 * SMTP_TLS - The SMTP server requires TLS encrypted communication
 * SMTP_USER - the optional user account needed to connect to the SMTP server
-* SMTP_PSWD - the optional SMTP user account password 
+* SMTP_PSWD - the optional SMTP user account password
+* CHOWN_WWW - An optional uid:gid value to use for filesender to run as. It is most relevent when docker mounting the container's /data directory to store filesender uploads on the host filesystem. Filesender should be running as the user owning the host system directory, otherwise upload permission errors will occur.
 * ADMIN_EMAIL - email address of the filesender admin account, must be valid
 * ADMIN_USERS - the set of user accounts that should be considered administrators
 * ADMIN_PSWD - the password to use for the admin account 
@@ -54,7 +55,7 @@ docker-compose up
 Three docker containers will be created, validate by running **docker ps -a**
 
 * simplesaml_web_1 - contains nginx
-* simplesaml_fpm_1 - contains filesender running under fpm. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of simplesamlphp configuration should get mounted to this container under /opt/simplesamlphp/config
+* simplesaml_fpm_1 - contains filesender running under fpm. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of simplesamlphp configuration should get mounted to this container under /opt/simplesamlphp/config. External storage disk capacity should get [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the container at /data
 * simplesaml_db-host_1 - contains mysql database used by filesender.
 
 Then browse to [http://localhost](http://localhost)
@@ -73,7 +74,7 @@ cd filesender-phpfpm/compose/shibboleth
 Four docker containers will be created, validate by running **docker ps -a**
 
 * shibboleth_web_1 - contains nginx
-* shibboleth_fpm_1 - contains filesender running under fpm.
+* shibboleth_fpm_1 - contains filesender running under fpm. External storage disk capacity should get [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the container at /data
 * shibboleth_shib_1 - contains the shibboleth-sp instance. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of shibboleth configuration should get mounted to this container under /etc/shibboleth
 * shibboleth_db-host_1 - contains mysql database used by filesender.
 
