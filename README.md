@@ -18,14 +18,14 @@ The following environment variables control the docker setup:
 
 * FILESENDER_URL - full URL to enter in the browser to bring up filesender
 * FILESENDER_AUTHTYPE - unused by the 1.x series, for 2.x series, use the values:
-** shibboleth - use shibboleth for authentication
-** saml - use simplesamlphp for authentication
-** fake - use a fake user. The MAIL_ATTR, NAME_ATTR, UID_ATTR specify the values to use.
+  ** shibboleth - use shibboleth for authentication
+  ** saml - use simplesamlphp for authentication
+  ** fake - use a fake user. The MAIL_ATTR, NAME_ATTR, UID_ATTR specify the values to use.
 * FILESENDER_AUTHSAML - when using simplesaml for authentication, which is the only option with the 1.x series, the authentication type to use as defined in simplesamlphps's [config/authsources.php](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml/simplesamlphp/config) file.
 * MAIL_ATTR, NAME_ATTR, UID_ATTR - depending on the value of FILESENDER_AUTHTYPE:
-** shibboleth - the fastcgi environment variable containing the attribute value.
-** simplesamlphp - the saml attribute name to use.
-** fake - the actual value to use
+  ** shibboleth - the fastcgi environment variable containing the attribute value.
+  ** simplesamlphp - the saml attribute name to use.
+  ** fake - the actual value to use
 * DB_HOST - the database hostname to connect to.
 * DB_NAME - the database namespace to install filesender tables into
 * DB_USER - the database user to connecto the database system with
@@ -52,7 +52,7 @@ docker-compose up
 
 ```
 
-Three docker containers will be created, validate by running _docker ps -a_
+Three docker containers will be created, validate by running **docker ps -a**
 
 * simplesaml_web_1 - contains nginx
 * simplesaml_fpm_1 - contains filesender running under fpm. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of simplesamlphp configuration should get mounted to this container under /opt/simplesamlphp/config
@@ -72,7 +72,7 @@ cd filesender-phpfpm/compose/shibboleth
 
 ```
 
-Four docker containers will be created, validate by running _docker ps -a_
+Four docker containers will be created, validate by running **docker ps -a**
 
 * shibboleth_web_1 - contains nginx
 * shibboleth_fpm_1 - contains filesender running under fpm.
@@ -81,7 +81,7 @@ Four docker containers will be created, validate by running _docker ps -a_
 
 If you have a DNS name pointing to a public IP, run:
 
-[./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh) **dns_name**
+[./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh) *dns_name*
 
 Otherwise, just run in the shell
 
