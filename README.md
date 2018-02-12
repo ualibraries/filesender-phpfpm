@@ -40,6 +40,8 @@ The following environment variables control the docker setup:
 * SIMPLESAML_MODULES - the space seperated list of simplesaml [module directories](https://github.com/simplesamlphp/simplesamlphp/tree/master/modules) to enable for authentication and filtering. Usually enabling one of these modules requires setting configuration settings for it in the authsources.php file.
 * SIMPLESAML_SALT - an optional simplesaml salt value to use. A value will get auto-generated on first time startup if missing.
 
+These variables are set using the [setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/docker/setup.sh) script, copied into the image at /setup.sh, which runs in the filesender-phpfpm docker container the first time it starts up. 
+
 ## simplesamlphp ##
 Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/1.6/compose/simplesaml/docker-compose.yml) example of how to quickly setup filesender with a fake user account using cd.
 
