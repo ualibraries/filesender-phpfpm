@@ -34,7 +34,7 @@ The following environment variables control the docker setup:
 * SMTP_TLS - The SMTP server requires TLS encrypted communication
 * SMTP_USER - the optional user account needed to connect to the SMTP server
 * SMTP_PSWD - the optional SMTP user account password
-* CHOWN_WWW - An optional uid:gid value to use for filesender to run as. It is most relevent when docker mounting the container's /data directory to store filesender uploads on the host filesystem. Filesender should be running as the user owning the host system directory, otherwise upload permission errors will occur.
+* CHOWN_WWW - An optional uid:gid value for filesender to run as. It is most relevent when docker mounting the container's /data directory to store uploads on the host filesystem. Filesender should be running as the user owning the host system directory, otherwise upload permission errors will occur.
 * ADMIN_EMAIL - email address of the filesender admin account, must be valid
 * ADMIN_USERS - the set of user accounts that should be considered administrators
 * ADMIN_PSWD - the password to use for the admin account 
