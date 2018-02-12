@@ -125,7 +125,7 @@ A public IP address is needed for the remote shibboleth-idp to send responses ba
 
 For production deployments, most organizations using shibboleth have a sample /etc/shibboleth/ that needs just a few configuration tweaks to connect the local shibboleth-sp docker image to the organization's shibboleth-idp. This tweaked /etc/shibboleth directory should be [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the shibboleth-sp docker container.
 
-Note the origanization's /etc/shibboleth/shibboleth2.xml must have the following code block in it to correctly resource protect with nginx's fastcgi implementation of shibboleth-sp:
+Note the organization's /etc/shibboleth/shibboleth2.xml must have the following code block in it to correctly resource protect with nginx's fastcgi implementation of shibboleth-sp:
 
 ```xml
 
