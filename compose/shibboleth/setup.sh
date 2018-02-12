@@ -19,12 +19,8 @@ while [ ! -d "$SETUP_DIR/../shibboleth/template" ]; do
     SETUP_DIR="$( cd $SETUP_DIR/.. && pwd )"
 done
 
-echo "RUNNING from directory $SETUP_DIR"
+echo "WORKINGDIR: $SETUP_DIR"
 cd $SETUP_DIR
-
-echo "STOPPING any docker-compose created images"
-docker-compose rm -fsv
-echo "y" | docker volume prune
 
 HOSTIP=$1
 
@@ -48,6 +44,10 @@ METADATA_URL="https://$HOSTIP/Shibboleth.sso/Metadata"
 METADATA_FILE="docker-filesender-phpfpm-shibboleth-$HOSTIP-metadata.xml"
 
 if [ ! -f $METADATA_FILE ]; then
+
+echo "STOPPING any docker-compose created images"
+docker-compose rm -fsv
+echo "y" | docker volume prune
 
 DEVICE=$HOSTIP
 SUBJECT="/C=FC/postalCode=FakeZip/ST=FakeState/L=FakeCity/streetAddress=FakeStreet/O=FakeOrganization/OU=FakeDepartment/CN=${DEVICE}"
@@ -73,9 +73,12 @@ function create_self_signed_cert {
   local SIGNING_KEY="-signkey $CERT_KEY"
   
   openssl x509 -req -extfile <(printf "subjectAltName=DNS:$DEVICE") -in $CERT_CSR $SIGNING_KEY -out $CERT_SIGNED -days $DAYS -sha256
+
+  chmod 644 $CERT_KEY
   cd -  
 }
 
+echo
 # Create shibboleth self-signed certs
 create_self_signed_cert shibboleth sp-key.pem sp-csr.pem sp-cert.pem
 
@@ -90,6 +93,7 @@ function sed_file {
   sed -i -e "s|{PUBLICIP}|$HOSTIP|g" "$DSTFILE"
 }
 
+echo
 echo "CONFIGURING shibboleth"
 sed_file template/shibboleth2.xml shibboleth/shibboleth2.xml
 
@@ -102,6 +106,7 @@ sed_file template/docker-compose.yml docker-compose.yml
 echo "CREATING docker containers in background"
 docker-compose up -d
 
+echo
 echo "WAITING for docker containers to be up"
 sleep 5
 
@@ -121,9 +126,9 @@ fi
 
 fi
 
-echo "To redo this configuration, delete $METADATA_FILE and re-run ./setup.sh"
+echo
+echo "RERUN: to redo this setup, delete $METADATA_FILE and re-run ./setup.sh"
 echo
 echo "REGISTER this shibboleth instance by uploading file $SETUP_DIR/$METADATA_FILE to https://www.testshib.org/register.html#"
 echo
-echo "FINALLY open your browser to https://$HOSTIP"
-
+echo "FINALLY browse to https://$HOSTIP. You will need to accept any error indicating the https ssl cert is invalid or not private"

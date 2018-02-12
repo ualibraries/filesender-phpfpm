@@ -1,4 +1,4 @@
 shibboleth2.xml
 sp-cert.pem
-sp-cert.csr
+sp-csr.pem
 sp-key.pem
