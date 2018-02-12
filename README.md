@@ -123,5 +123,5 @@ Finally, browse to the URL given at the end of [./setup-shib.sh](https://github.
 
 A public IP address is needed for the remote shibboleth-idp to send responses back to the local shibboleth-sp through nginx. If the docker image is running on a [private IP](https://en.wikipedia.org/wiki/Private_network) behind a router NAT, it might be possible for the router to forward the shibboleth-idp responses through https to the private IP as long as the router has been given a public IP.
 
-For production deployments, most organizations have a sample /etc/shibboleth/  that needs just a few configuration tweaks to connect the local shibboleth-sp docker image to the organization's shibboleth-idp. This tweaked /etc/shibboleth directory should be [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the shibboleth-sp docker container.
+For production deployments, most organizations using shibboleth have a sample /etc/shibboleth/ that needs just a few configuration tweaks to connect the local shibboleth-sp docker image to the organization's shibboleth-idp. This tweaked /etc/shibboleth directory should be [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the shibboleth-sp docker container.
 
