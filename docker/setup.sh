@@ -1,4 +1,5 @@
 #!/bin/bash
+# This script is based off of ideas from https://github.com/litnet/docker-filesender/blob/master/web/docker-entrypoint.sh
 
 set -x
 

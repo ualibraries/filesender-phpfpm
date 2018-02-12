@@ -9,9 +9,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      - FILESENDER_DOMAIN=localhost
-
     volumes:
       - run.php:/run/php
       - run.shibboleth:/run/shibboleth
@@ -21,14 +18,18 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    image: 'filesender-phpfpm:2.0-beta2'
+    image: 'uazlibraries/filesender-phpfpm:2.0-beta2'
     restart: always
     links:
       - db-host
     environment:
-      - SMTP_SERVER=smtpgate.email.arizona.edu
-      - ADMIN_EMAIL=admin@abcde.edu
-      - FILESENDER_URL=https://150.135.119.0
+      - SMTP_SERVER=smtp.gmail.com:587
+      - SMTP_TLS=true
+      - SMTP_USER=dockertestfilesender
+      - SMTP_PSWD=thisisalongpassword
+      - ADMIN_EMAIL=dockertestfilesender@gmail.com
+      - ADMIN_PSWD=password
+      - FILESENDER_URL=https://{PUBLICIP}
       - FILESENDER_AUTHTYPE=shibboleth
       - MAIL_ATTR=EPPN
       - NAME_ATTR=EPPN

@@ -62,22 +62,22 @@ Then browse to [http://localhost](http://localhost)
 Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/docs/stable/simplesamlphp-idp). Look at it's documentation for more details. In each case the authsources.php file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
 
 ## shibboleth ##
-Look at the [compose/shibboleth](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose/shibboleth) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/docker-compose.yml) example of how to quickly setup filesender using shibboleth for authentication, using the following instructions. As previously mentioned, a public IP address or a valid DNS name pointing to a public IP address is needed to setup filesender with shibboleth.
+Look at the [compose/shibboleth](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose/shibboleth) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/template/docker-compose.yml) example of how to quickly setup filesender using shibboleth for authentication, using the following instructions. As previously mentioned, a public IP address or a valid DNS name pointing to a public IP address is needed to setup filesender with shibboleth.
 
 ```
 git clone -b 2.0-beta2 git@github.com:ualibraries/filesender-phpfpm.git
 cd filesender-phpfpm/compose/shibboleth
-docker-compose up
+./setup.sh
 
 ```
 
-Three docker containers will be created:
+Four docker containers will be created:
 * shibboleth_web_1 - contains nginx
 * shibboleth_fpm_1 - contains filesender running under fpm.
 * shibboleth_shib_1 - contains the shibboleth-sp instance. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of shibboleth configuration should get mounted to this container under /etc/shibboleth
 * shibboleth_db-host_1 - contains mysql database used by filesender.
 
-If you have a DNS name, run:
+If you have a DNS name pointing to a public IP, run:
 
 [./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh) <dns_name>
 
