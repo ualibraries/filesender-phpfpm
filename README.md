@@ -1,9 +1,9 @@
-# filesender-phpfpm:2.0-beta2 #
+# filesender-phpfpm:1.6 #
 
 ## Info ##
 [Docker](https://www.docker.com/what-docker) image of [filesender](http://filesender.org/) running within [php-fpm](https://php-fpm.org/), with [nginx](https://www.nginx.com/) providing the webserver in front. All of the docker images are based off of [Debian](https://www.debian.org/) stable.
 
-This [release of filesender](https://github.com/filesender/filesender) can use [simplesamlphp](https://simplesamlphp.org/) or [shibboleth-sp](https://www.shibboleth.net/products/service-provider) for authentication.
+This [release of filesender](https://github.com/filesender/filesender) can use [simplesamlphp](https://simplesamlphp.org/) for authentication. Shibboleth authentication requires the 2.x series.
 
 ## Dependencies ##
 This docker image of filesender requires the following environment dependencies:
