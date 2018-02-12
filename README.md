@@ -8,11 +8,15 @@ This [release](https://github.com/filesender/filesender) of filesender can use [
 ## Dependencies ##
 This docker image of filesender requires the following environment dependencies:
 
+### On the host system running the filesender docker image ###
 1. [docker-compose](https://docs.docker.com/compose/overview/) is installed on the system.
-2. An [smtp](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) server to send emails. For the examples located in the [compose/](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose) directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
-3. The host system's time synchronized with a master [ntp](https://en.wikipedia.org/wiki/Network_Time_Protocol) server.
-4. A public IP address if using shibboleth authentication. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
-5. For production deployments, planned disk capacity to store uploaded files.
+2. The host system's time synchronized with a master [ntp](https://en.wikipedia.org/wiki/Network_Time_Protocol) server.
+3. A public IP address if using shibboleth authentication. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
+4. For production deployments, planned disk capacity to store uploaded files.
+
+### External to the host system ###
+
+1. An [smtp](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) server to send emails. For the examples located in the [compose/](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose) directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
 
 ## Environment Variables ##
 
