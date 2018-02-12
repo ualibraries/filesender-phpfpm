@@ -4,7 +4,7 @@
 REQUIRED="hostname perl sed openssl docker-compose nc curl"
 
 for UTILITY in $REQUIRED; do
-  WHICH_CMD=`which $UTILITY`
+  WHICH_CMD="`which $UTILITY`"
 
   if [ "$WHICH_CMD" = "" ]; then
     echo "ERROR: please install cmd line utility: $UTILITY"
@@ -22,11 +22,11 @@ done
 echo "WORKINGDIR: $SETUP_DIR"
 cd $SETUP_DIR
 
+GIVENIP=$1
 HOSTIP=$1
 
 if [ "$HOSTIP" = "" ]; then
   HOSTIP=`hostname -I 2>&1 | perl -ne '@ip = grep( !/^(192.168|10|172.[1-3]\d)./, split(/\s/)); print join("|",@ip)'`
-fi
 
 OCTETS=`echo -n $HOSTIP | sed -e 's|\.|#|g' | perl -ne '@valid = grep(/\d+/,split(/#/)); print scalar(@valid)'`
 
@@ -39,11 +39,12 @@ if [ "$OCTETS" != "4" ]; then
    echo "ERROR: Example: ./setup.sh <your_public_ip>"
    exit 1
 fi
+fi
 
 METADATA_URL="https://$HOSTIP/Shibboleth.sso/Metadata"
 METADATA_FILE="docker-filesender-phpfpm-shibboleth-$HOSTIP-metadata.xml"
 
-if [ ! -f $METADATA_FILE ]; then
+if [ ! -f "$METADATA_FILE" ]; then
 
 echo "STOPPING any docker-compose created images"
 docker-compose rm -fsv
@@ -127,8 +128,8 @@ fi
 fi
 
 echo
-echo "RERUN: to redo this setup, delete $METADATA_FILE and re-run ./setup.sh"
+echo "RERUN: to redo this setup, delete $METADATA_FILE and re-run ./setup.sh $GIVENIP"
 echo
 echo "REGISTER this shibboleth instance by uploading file $SETUP_DIR/$METADATA_FILE to https://www.testshib.org/register.html#"
 echo
-echo "FINALLY browse to https://$HOSTIP. You will need to accept any error indicating the https ssl cert is invalid or not private"
+echo "FINALLY browse to https://$HOSTIP .You will need to accept any error indicating the https ssl cert is invalid or not private"
