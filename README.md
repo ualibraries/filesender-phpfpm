@@ -18,9 +18,9 @@ The following environment variables control the docker setup:
 
 * FILESENDER_URL - full URL to enter in the browser to bring up filesender
 * FILESENDER_AUTHTYPE - unused by the 1.x series, for 2.x series, use the values:
-** shibboleth - use shibboleth for authentication
-** saml - use simplesamlphp for authentication
-** fake - use a fake user. The MAIL_ATTR, NAME_ATTR, UID_ATTR specify the values to use.
+  ** shibboleth - use shibboleth for authentication
+  ** saml - use simplesamlphp for authentication
+  ** fake - use a fake user. The MAIL_ATTR, NAME_ATTR, UID_ATTR specify the values to use.
 * FILESENDER_AUTHSAML - when using simplesaml for authentication, which is the only option with the 1.x series, the authentication type to use as defined in simplesamlphps's [config/authsources.php](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml/simplesamlphp/config) file.
 * MAIL_ATTR, NAME_ATTR, UID_ATTR - depending on the value of FILESENDER_AUTHTYPE:
 ** shibboleth - the fastcgi environment variable containing the attribute value.
