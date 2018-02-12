@@ -89,6 +89,8 @@ cd filesender-phpfpm/compose/shibboleth
 ./setup-shib.sh
 ```
 
+Closely follow the directions given at the end of running *./setup-shib.sh*, following the REGISTER and FINALLY tagged instructions in order.
+
 To cleanup the above test instance, run:
 
 ```
