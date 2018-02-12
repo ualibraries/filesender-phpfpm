@@ -61,10 +61,10 @@ Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfp
 Three docker containers will be created, validate by running **docker ps -a**
 
 * simplesaml_web_1 - contains nginx
-* simplesaml_fpm_1 - contains filesender running under fpm. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of simplesamlphp configuration should get mounted to this container under /opt/simplesamlphp/config. External storage disk capacity should get [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the container at /data
+* simplesaml_fpm_1 - contains filesender running under fpm. Any [docker mount](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of simplesamlphp configuration should get mounted to this container under /opt/simplesamlphp/config. External storage disk capacity should get [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the container at /data
 * simplesaml_db-host_1 - contains mysql database used by filesender.
 
-Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/docs/stable/simplesamlphp-idp). Look at it's documentation for more details. In each case the [authsources.php](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml/simplesamlphp/config) file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
+Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/docs/stable/simplesamlphp-idp). Look at it's documentation for more details. In each case the [authsources.php](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml/simplesamlphp/config) file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have [docker mount](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
 
 ## shibboleth ##
 To test out filesender using shibboleth authentication, run the following commands:
@@ -81,7 +81,7 @@ Four docker containers will be created, validate by running **docker ps -a**
 
 * shibboleth_web_1 - contains nginx
 * shibboleth_fpm_1 - contains filesender running under fpm. External storage disk capacity should get [docker mounted](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) into the container at /data
-* shibboleth_shib_1 - contains the shibboleth-sp instance. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of shibboleth configuration should get mounted to this container under /etc/shibboleth
+* shibboleth_shib_1 - contains the shibboleth-sp instance. Any [docker mount](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of shibboleth configuration should get mounted to this container under /etc/shibboleth
 * shibboleth_db-host_1 - contains mysql database used by filesender.
 
 If you have a DNS name pointing to a public IP, run:
