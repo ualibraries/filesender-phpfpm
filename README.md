@@ -1,12 +1,13 @@
-# filesender-phpfpm:2.0-beta2 #
+# filesender-phpfpm:2.0-beta3 #
 
 ## Info ##
-[Docker](https://www.docker.com/what-docker) image of [filesender](http://filesender.org/) running within [php-fpm](https://php-fpm.org/), with [nginx](https://www.nginx.com/) providing the webserver in front. All of the docker images are based off of [Debian](https://www.debian.org/) stable.
+[Docker](https://www.docker.com/what-docker) image of [filesender](http://filesender.org/) running within [php-fpm](https://php-fpm.org/), with [nginx](https://www.nginx.com/) providing the webserver in front. All of the docker images are based off of [debian](https://www.debian.org/) stable.
 
-This [release of filesender](https://github.com/filesender/filesender) can use [simplesamlphp](https://simplesamlphp.org/) or [shibboleth-sp](https://www.shibboleth.net/products/service-provider) for authentication.
+This [release](https://github.com/filesender/filesender) of filesender can use [simplesamlphp](https://simplesamlphp.org/) or [shibboleth-sp](https://www.shibboleth.net/products/service-provider) for authentication.
 
 ## Dependencies ##
 This docker image of filesender requires the following environment dependencies:
+
 1. [docker-compose](https://docs.docker.com/compose/overview/) is installed on the system.
 2. An smtp server to send emails. For the examples located in the [compose/](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose) directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
 3. If using shibboleth authentication instead of simplesamlphp, a public IP address for the remote shibboleth-idp to send responses back to the local shibboleth-sp through nginx. If the docker image is running on a [private IP](https://en.wikipedia.org/wiki/Private_network) behind a router NAT, it might be possible for the router to forward the shibboleth-idp responses through https to the private IP as long as the router has been given a public IP. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
@@ -44,7 +45,7 @@ The following environment variables control the docker setup:
 These variables are set using the [setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/docker/setup.sh) script, copied into the image at /setup.sh, which runs in the filesender-phpfpm docker container the first time it starts up. 
 
 ## simplesamlphp ##
-Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/1.6/compose/simplesaml/docker-compose.yml) example of how to quickly setup filesender with a fake user account using cd.
+Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/1.6/compose/simplesaml/docker-compose.yml) example of how to quickly setup filesender with a fake user account using simplesamlphp.
 
 ```
 git clone -b 1.6 git@github.com:ualibraries/filesender-phpfpm.git
@@ -66,7 +67,7 @@ Quite a few more complex authentication options are available through [simplesam
 Look at the [compose/shibboleth](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose/shibboleth) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/template/docker-compose.yml) example of how to quickly setup filesender using shibboleth for authentication, using the following instructions. As previously mentioned, a public IP address or a valid DNS name pointing to a public IP address is needed to setup filesender with shibboleth.
 
 ```
-git clone -b 2.0-beta2 git@github.com:ualibraries/filesender-phpfpm.git
+git clone -b 2.0-beta3 git@github.com:ualibraries/filesender-phpfpm.git
 cd filesender-phpfpm/compose/shibboleth
 ./setup.sh
 ```
