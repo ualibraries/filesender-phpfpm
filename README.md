@@ -71,7 +71,7 @@ To test out filesender using shibboleth authentication, run the following comman
 ```
 git clone git@github.com:ualibraries/filesender-phpfpm.git
 cd filesender-phpfpm/compose/shibboleth
-./setup.sh
+./setup-shib.sh
 ```
 
 Look at the [compose/shibboleth](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose/shibboleth) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/template/docker-compose.yml) example of how to quickly setup filesender using shibboleth for authentication, using the following instructions. As previously mentioned, a public IP address or a valid DNS name pointing to a public IP address is needed to setup filesender with shibboleth.
@@ -85,17 +85,17 @@ Four docker containers will be created, validate by running **docker ps -a**
 
 If you have a DNS name pointing to a public IP, run:
 
-[./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh) *dns_name*
+[./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta3/compose/shibboleth/setup-shib.sh) *dns_name*
 
 Otherwise, just run in the shell
 
-[./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh)
+[./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta3/compose/shibboleth/setup-shib.sh)
 
 It will attempt to auto-calculate your public IP address.
 
-After running, follow the instructions [./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh) gives to [REGISTER](http://www.testshib.org/register.html) your shibboleth instance at testshib.org.
+After running, follow the instructions [./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta3/compose/shibboleth/setup-shib.sh) gives to [REGISTER](http://www.testshib.org/register.html) your shibboleth instance at testshib.org.
 
-Finally, browse to the URL given at the end of [./setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/setup.sh)
+Finally, browse to the URL given at the end of [./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta3/compose/shibboleth/setup-shib.sh)
 
 A public IP address is needed for the remote shibboleth-idp to send responses back to the local shibboleth-sp through nginx. If the docker image is running on a [private IP](https://en.wikipedia.org/wiki/Private_network) behind a router NAT, it might be possible for the router to forward the shibboleth-idp responses through https to the private IP as long as the router has been given a public IP.
 

@@ -13,7 +13,7 @@ for UTILITY in $REQUIRED; do
   fi
 done
 
-# Make sure we are running from the setup.sh directory
+# Make sure we are running from the setup-shib.sh directory
 SETUP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 while [ ! -d "$SETUP_DIR/../shibboleth/template" ]; do
     SETUP_DIR="$( cd $SETUP_DIR/.. && pwd )"
@@ -36,7 +36,7 @@ echo "CALCULATED $HOSTIP has $OCTETS parts"
 if [ "$OCTETS" != "4" ]; then
    echo "ERROR: was not able to use a single IP to setup with."
    echo "ERROR: Please rerun passing in the public IP to use."
-   echo "ERROR: Example: ./setup.sh <your_public_ip>"
+   echo "ERROR: Example: ./setup-shib.sh <your_public_ip>"
    exit 1
 fi
 fi
@@ -128,7 +128,7 @@ fi
 fi
 
 echo
-echo "RERUN: to redo this setup, delete $METADATA_FILE and re-run ./setup.sh $GIVENIP"
+echo "RERUN: to redo this setup, delete $METADATA_FILE and re-run ./setup-shib.sh $GIVENIP"
 echo
 echo "REGISTER this shibboleth instance by uploading file $SETUP_DIR/$METADATA_FILE to https://www.testshib.org/register.html#"
 echo
