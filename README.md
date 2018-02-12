@@ -23,9 +23,9 @@ The following environment variables control the docker setup:
   * fake - use a fake user. The MAIL_ATTR, NAME_ATTR, UID_ATTR specify the values to use.
 * FILESENDER_AUTHSAML - when using simplesaml for authentication, which is the only option with the 1.x series, the authentication type to use as defined in simplesamlphps's [config/authsources.php](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml/simplesamlphp/config) file.
 * MAIL_ATTR, NAME_ATTR, UID_ATTR - depending on the value of FILESENDER_AUTHTYPE:
-** shibboleth - the fastcgi environment variable containing the attribute value.
-** simplesamlphp - the saml attribute name to use.
-** fake - the actual value to use
+  * shibboleth - the fastcgi environment variable containing the attribute value.
+  * simplesamlphp - the saml attribute name to use.
+  * fake - the actual value to use
 * DB_HOST - the database hostname to connect to.
 * DB_NAME - the database namespace to install filesender tables into
 * DB_USER - the database user to connecto the database system with
@@ -49,7 +49,6 @@ Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfp
 git clone -b 1.6 git@github.com:ualibraries/filesender-phpfpm.git
 cd filesender-phpfpm/compose/simplesaml
 docker-compose up
-
 ```
 
 Three docker containers will be created, validate by running **docker ps -a**
@@ -69,7 +68,6 @@ Look at the [compose/shibboleth](https://github.com/ualibraries/filesender-phpfp
 git clone -b 2.0-beta2 git@github.com:ualibraries/filesender-phpfpm.git
 cd filesender-phpfpm/compose/shibboleth
 ./setup.sh
-
 ```
 
 Four docker containers will be created, validate by running **docker ps -a**
