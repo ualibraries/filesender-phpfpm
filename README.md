@@ -52,7 +52,8 @@ docker-compose up
 
 ```
 
-Three docker containers will be created:
+Three docker containers will be created, validated by running _docker ps -a_
+
 * simplesaml_web_1 - contains nginx
 * simplesaml_fpm_1 - contains filesender running under fpm. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of simplesamlphp configuration should get mounted to this container under /opt/simplesamlphp/config
 * simplesaml_db-host_1 - contains mysql database used by filesender.
@@ -71,7 +72,8 @@ cd filesender-phpfpm/compose/shibboleth
 
 ```
 
-Four docker containers will be created:
+Four docker containers will be created, validated by running _docker ps -a_
+
 * shibboleth_web_1 - contains nginx
 * shibboleth_fpm_1 - contains filesender running under fpm.
 * shibboleth_shib_1 - contains the shibboleth-sp instance. Any [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) of shibboleth configuration should get mounted to this container under /etc/shibboleth
