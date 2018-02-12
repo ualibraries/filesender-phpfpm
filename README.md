@@ -3,7 +3,7 @@
 ## Info ##
 [Docker](https://www.docker.com/what-docker) image of [filesender](http://filesender.org/) running within [php-fpm](https://php-fpm.org/), with [nginx](https://www.nginx.com/) providing the webserver in front. All of the docker images are based off of [debian](https://www.debian.org/) stable.
 
-This [release](https://github.com/filesender/filesender) of filesender can use [simplesamlphp](https://simplesamlphp.org/) or [shibboleth-sp](https://www.shibboleth.net/products/service-provider) for authentication.
+This [release](https://github.com/filesender/filesender) of filesender can use [simplesamlphp](https://simplesamlphp.org/) or [shibboleth-sp](https://www.shibboleth.net/products/service-provider) for authentication. Questions directly related on using or configuring filesender should get posted to it's [mailinglist](https://sympa.uninett.no/lists/filesender.org/lists).
 
 ## Dependencies ##
 This docker image of filesender requires the following environment dependencies:
