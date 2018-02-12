@@ -9,9 +9,10 @@ This [release](https://github.com/filesender/filesender) of filesender can use [
 This docker image of filesender requires the following environment dependencies:
 
 1. [docker-compose](https://docs.docker.com/compose/overview/) is installed on the system.
-2. An smtp server to send emails. For the examples located in the [compose/](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose) directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
-3. A public IP address if using shibboleth authentication. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
-4. For production deployments, planned disk capacity to store uploaded files.
+2. An [smtp](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) server to send emails. For the examples located in the [compose/](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose) directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
+3. The host system's time synchronized with a master [ntp](https://en.wikipedia.org/wiki/Network_Time_Protocol) server.
+4. A public IP address if using shibboleth authentication. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
+5. For production deployments, planned disk capacity to store uploaded files.
 
 ## Environment Variables ##
 
@@ -39,7 +40,7 @@ The following environment variables control the docker setup:
 * ADMIN_EMAIL - email address of the filesender admin account, must be valid
 * ADMIN_USERS - the set of user accounts that should be considered administrators
 * ADMIN_PSWD - the password to use for the admin account 
-* SIMPLESAML_MODULES - the space seperated list of simplesaml [module directories](https://github.com/simplesamlphp/simplesamlphp/tree/master/modules) to enable for authentication and filtering. Usually enabling one of these modules requires setting configuration settings for it in the authsources.php file.
+* SIMPLESAML_MODULES - the space seperated list of simplesaml [module directories](https://github.com/simplesamlphp/simplesamlphp/tree/master/modules) to enable for authentication and filtering. Usually enabling one of these modules requires setting configuration settings for it in the [authsources.php](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml/simplesamlphp/config) file.
 * SIMPLESAML_SALT - an optional simplesaml salt value to use. A value will get auto-generated on first time startup if missing.
 
 These variables are set using the [setup.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/docker/setup.sh) script, which runs in the filesender-phpfpm docker container the first time it starts up from the location /setup.sh.
@@ -63,7 +64,7 @@ Three docker containers will be created, validate by running **docker ps -a**
 
 Then browse to [http://localhost](http://localhost)
 
-Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/docs/stable/simplesamlphp-idp). Look at it's documentation for more details. In each case the authsources.php file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
+Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/docs/stable/simplesamlphp-idp). Look at it's documentation for more details. In each case the [authsources.php](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml/simplesamlphp/config) file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have [docker mounts](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) to the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
 
 ## shibboleth ##
 To test out filesender using shibboleth authentication, run the following commands:
