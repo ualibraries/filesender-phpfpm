@@ -60,8 +60,6 @@ docker-compose up
 
 Then browse to [http://localhost](http://localhost)
 
-<<<<<<< HEAD
-=======
 To cleanup the above test instance, run:
 
 ```
@@ -71,7 +69,6 @@ docker-compose rm -fsv
 docker volume prune  # Enter y
 ```
 
->>>>>>> 2.0-beta3
 Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/1.6/compose/simplesaml/docker-compose.yml) example of how to quickly setup filesender with a fake user account using simplesamlphp.
 
 Three docker containers will be created, validate by running **docker ps -a**
