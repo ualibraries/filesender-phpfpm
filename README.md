@@ -8,13 +8,13 @@ This [release](https://github.com/filesender/filesender) of filesender can use [
 ## Dependencies ##
 This docker image of filesender requires the following environment dependencies:
 
-### On the host system running the filesender docker image ###
+### Host system dependencies ###
 1. [docker-compose](https://docs.docker.com/compose/overview/) is installed on the system.
 2. The host system's time synchronized with a master [ntp](https://en.wikipedia.org/wiki/Network_Time_Protocol) server.
 3. A public IP address if using shibboleth authentication. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
 4. For production deployments, planned disk capacity to store uploaded files.
 
-### External to the host system ###
+### External dependencies ###
 
 1. An [smtp](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) server to send emails. For the examples located in the [compose/](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose) directory, they use a gmail test account. For a production deployment an organization's smtp server should be used.
 
@@ -60,6 +60,15 @@ docker-compose up
 
 Then browse to [http://localhost](http://localhost)
 
+To cleanup the above test instance, run:
+
+```
+git clone https://github.com/ualibraries/filesender-phpfpm.git
+cd filesender-phpfpm/compose/simplesaml
+docker-compose rm -fsv
+docker volume prune  # Enter y
+```
+
 Look at the [compose/simplesaml](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/1.6/compose/simplesaml/docker-compose.yml) example of how to quickly setup filesender with a fake user account using simplesamlphp.
 
 Three docker containers will be created, validate by running **docker ps -a**
@@ -78,6 +87,15 @@ To test out filesender using shibboleth authentication, run the following comman
 git clone https://github.com/ualibraries/filesender-phpfpm.git
 cd filesender-phpfpm/compose/shibboleth
 ./setup-shib.sh
+```
+
+To cleanup the above test instance, run:
+
+```
+git clone https://github.com/ualibraries/filesender-phpfpm.git
+cd filesender-phpfpm/compose/shibboleth
+docker-compose rm -fsv
+docker volume prune  # Enter y
 ```
 
 Look at the [compose/shibboleth](https://github.com/ualibraries/filesender-phpfpm/tree/2.0-beta2/compose/shibboleth) directory for a [docker-compose](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta2/compose/shibboleth/template/docker-compose.yml) example of how to quickly setup filesender using shibboleth for authentication, using the following instructions. As previously mentioned, a public IP address or a valid DNS name pointing to a public IP address is needed to setup filesender with shibboleth.
