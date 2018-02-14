@@ -11,8 +11,9 @@ This docker image of filesender requires the following environment dependencies:
 ### Host system dependencies ###
 1. [docker-compose](https://docs.docker.com/compose/overview/) is installed on the system.
 2. The host system's time synchronized with a master [ntp](https://en.wikipedia.org/wiki/Network_Time_Protocol) server.
-3. A public IP address if using shibboleth authentication. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
-4. For production deployments, planned disk capacity to store uploaded files.
+3. No other service on the system is listening at port 80 or 443. This can be changed through modifying the docker-compose configuration and files.
+4. A public IP address if using shibboleth authentication. For production deployments, having nginx using an ssl cert associated with a public DNS entry is the ideal situation.
+5. For production deployments, planned disk capacity to store uploaded files.
 
 ### External dependencies ###
 
