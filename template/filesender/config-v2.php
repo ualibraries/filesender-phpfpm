@@ -47,7 +47,7 @@
 // ---------------------------------------------
 // 
 $config['site_url'] = '{FILESENDER_URL}/'; // String, URL of the application
-$config['site_logouturl'] = '{FILESENDER_URL}/login.php';
+$config['site_logouturl'] = '{FILESENDER_LOGOUT_URL}';
 $config['admin'] = '{ADMIN_USERS}'; // String, UID's (from  $config['saml_uid_attribute']) 
                                     // that have Administrator permissions
 $config['admin_email'] ='{ADMIN_EMAIL}';       // String, email  address(es, separated by ,) 
@@ -273,7 +273,7 @@ $config['auth_sp_saml_simplesamlphp_location'] ='/opt/simplesamlphp/';   // Loca
 //              File locations (or storage?)
 // ---------------------------------------------
 
-$config['storage_type'] = 'filesystem';
+$config['storage_type'] = '{FILESENDER_STORAGE}';
 $config['storage_filesystem_path'] = '/data/';
 
     //'storage_filesystem_df_command' => 'df {path}',

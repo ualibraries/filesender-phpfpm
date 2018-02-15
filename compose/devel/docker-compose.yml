@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: 'uazlibraries/nginx-shibboleth'
+    build: ./web
     restart: always
     tty: true
     links:
@@ -15,7 +15,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    image: 'uazlibraries/filesender-phpfpm:2.0-beta3'
+    image: 'filesender-phpfpm:devel'
     restart: always
     links:
       - db-host
@@ -26,7 +26,10 @@ services:
       - SMTP_PSWD=thisisalongpassword
       - ADMIN_EMAIL=dockertestfilesender@gmail.com
       - ADMIN_PSWD=password
-      - FILESENDER_URL=http://localhost
+      - CHOWN_WWW=1000:1000
+      - FILESENDER_URL=http://localhost/upload
+      - FILESENDER_LOGOUT_URL=http://localhost
+      - FILESENDER_STORAGE=FilesystemPreserveName
       - FILESENDER_AUTHTYPE=saml
       - FILESENDER_AUTHSAML=static-user
       - DB_HOST=db-host
