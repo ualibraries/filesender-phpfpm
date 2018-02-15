@@ -1,10 +1,11 @@
 FROM uazlibraries/debian-php-fpm:latest
 
-ENV FILESENDER_V=2.0-beta3 SSP_V=1.15.0 FILESENDER_BRANCH=StorageFilesystemPreserveName
+ENV FILESENDER_V=2.0-beta3 SSP_V=1.15.0
 
 RUN \
 cd /opt && \
-git clone --verbose -b ${FILESENDER_BRANCH} https://github.com/glbrimhall/filesender.git && \
+curl -kL https://github.com/filesender/filesender/archive/filesender-$FILESENDER_V.tar.gz | tar xz && \
+mv filesender-filesender-$FILESENDER_V filesender && \
 curl -L https://github.com/simplesamlphp/simplesamlphp/releases/download/v${SSP_V}/simplesamlphp-${SSP_V}.tar.gz | tar xz && \
 mv simplesamlphp-${SSP_V} simplesamlphp
 
