@@ -1,13 +1,13 @@
 # filesender-phpfpm:2.0-beta3 #
 
-- [Info](#info)
+- [Introduction](#introduction)
 - [Dependencies](#dependencies)
 - [Environment Variables](#environment-variables)
 - [Deployment](#deployment)
-  - [SimpleSamlphp](#simplesamlphp)
-  - [Shibboleth](#shibboleth)
+  - [simplesamlphp](#simplesamlphp)
+  - [shibboleth](#shibboleth)
 
-## Info
+## Introduction
 [Docker](https://www.docker.com/what-docker) image of [filesender](http://filesender.org/) running within [php-fpm](https://php-fpm.org/), with [nginx](https://www.nginx.com/) providing the webserver in front. All of the docker images are based off of [debian](https://www.debian.org/) stable.
 
 This [release](https://github.com/filesender/filesender) of filesender can use [simplesamlphp](https://simplesamlphp.org/) or [shibboleth-sp](https://www.shibboleth.net/products/service-provider) for authentication. Questions directly related on using or configuring filesender should get posted to it's [mailinglist](https://sympa.uninett.no/lists/filesender.org/lists).
@@ -59,7 +59,7 @@ These variables are set using the [setup.sh](https://github.com/ualibraries/file
 
 ## Deployment
 
-### SimpleSamlphp
+### simplesamlphp
 To test out filesender using simplesamlphp authentication, run the following commands:
 
 ```
@@ -94,7 +94,7 @@ Three docker containers will be created, validate by running **docker ps -a**
 Quite a few more complex authentication options are available through [simplesamlphp](https://simplesamlphp.org/docs/stable/simplesamlphp-idp). Look at it's documentation for more details. In each case the [authsources.php](https://github.com/ualibraries/filesender-phpfpm/tree/1.6/compose/simplesaml/simplesamlphp/config) file will likely need to get modified and a module enabled through setting the SIMPLESAML_MODULES environment variable. More complex examples that would require certificates should have 
 [docker mount](https://docs.docker.com/storage/bind-mounts/#choosing-the--v-or-mount-flag) the /opt/simplesamlphp/config/ directory so the certs, config.php, and authsources.php are properly setup.
 
-### Shibboleth
+### shibboleth
 To test out filesender using shibboleth authentication, run the following commands:
 
 ```
