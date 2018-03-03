@@ -147,7 +147,8 @@ For production deployments, most organizations using shibboleth have a sample /e
 
 Note the organization's /etc/shibboleth/shibboleth2.xml must have the following code block in it to correctly resource protect with nginx's fastcgi implementation of shibboleth-sp:
 
-	```xml
+```xml
+	
 	<RequestMapper type="XML">
 	  <RequestMap>
 	  <Host name="<change to your public ip or dns name>"
@@ -159,4 +160,5 @@ Note the organization's /etc/shibboleth/shibboleth2.xml must have the following 
 	  </Host>
 	  </RequestMap>
 	</RequestMapper>
-	```
+	
+```
