@@ -44,6 +44,7 @@ The following environment variables control the docker setup:
 * DB_NAME - the database namespace to install filesender tables into
 * DB_USER - the database user to connecto the database system with
 * DB_PASSWORD - the database user password
+* PHP_FPM_LISTEN - the php-fpm fastcgi listener. Default is to create a unix socket at /run/php/php7.0-fpm.sock. To enable a tcpip listener at port 9000, use the value: 9000
 * SMTP_SERVER - the SMTP server to send email through. It must be a valid server for filesender to work.
 * SMTP_TLS - The SMTP server requires TLS encrypted communication
 * SMTP_USER - the optional user account needed to connect to the SMTP server
