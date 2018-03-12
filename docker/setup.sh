@@ -59,6 +59,12 @@ function sed_file {
    > "$DSTFILE"
 }
 
+# php-fpm setup
+if [ "$PHP_FPM_LISTEN" != "" ]; then
+  sed -i -e "s|^listen = /run/php/.*|listen = $PHP_FPM_LISTEN|g" \
+      /etc/php/7.0/fpm/pool.d/www.conf
+fi
+
 # ssmtp setup
 SSMTP_CONF=/etc/ssmtp/ssmtp.conf
 if [ ! -f "${SSMTP_CONF}.default" ] && [ -f "$SSMTP_CONF" ]; then
