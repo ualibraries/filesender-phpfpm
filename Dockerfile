@@ -1,6 +1,6 @@
 FROM uazlibraries/debian-php-fpm:latest
 
-ENV FILESENDER_V=2.0-beta3 SSP_V=1.15.0
+ENV FILESENDER_V=2.0-beta4 SSP_V=1.15.0
 
 RUN \
 cd /opt && \

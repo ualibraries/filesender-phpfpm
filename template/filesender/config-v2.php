@@ -96,6 +96,7 @@ $config['upload_display_bits_per_sec'] = false;
 // --------------------------------------------------
 
 $config['max_transfer_size'] = 2107374182400;
+$config['max_transfer_files'] = 2107374182400;
 
 $config['transfer_options'] = array(
 
