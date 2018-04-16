@@ -37,9 +37,6 @@ function sed_file {
     DSTFILE="$2"
   fi
 
-  cat "$SRCFILE" | sed \
-    -e "s|{FILESENDER_URL}|${FILESENDER_URL}|g" \
-    -e "s|{FILESENDER_LOGOUT_URL}|${FILESENDER_LOGOUT_URL}|g" \
     -e "s|{FILESENDER_STORAGE}|${FILESENDER_STORAGE}|g" \
     -e "s|{FILESENDER_AUTHTYPE}|${FILESENDER_AUTHTYPE}|g" \
     -e "s|{FILESENDER_AUTHSAML}|${FILESENDER_AUTHSAML}|g" \
