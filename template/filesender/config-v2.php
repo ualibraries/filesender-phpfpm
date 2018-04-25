@@ -255,7 +255,7 @@ $config['guest_options'] = array(
 // ---------------------------------------------
 //              DB configuration
 // ---------------------------------------------
-$config["db_type"] ='mysql';       // String, pgsql or mysql
+$config["db_type"] ='{DB_TYPE}';       // String, pgsql or mysql
 $config['db_host'] ='{DB_HOST}';       // String, database host 
 $config['db_database'] ='{DB_NAME}';   // String, database name
 $config['db_username'] ='{DB_USER}';   // String, database username

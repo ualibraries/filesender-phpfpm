@@ -21,9 +21,18 @@ SIMPLESAML_DIR="/opt/simplesamlphp"
 SIMPLESAML_MODULES="cas exampleauth"
 
 DB_HOST=${DB_HOST:-localhost}
+DB_TYPE=${DB_TYPE:-mysql}
 DB_NAME=${DB_NAME:-filesender}
 DB_USER=${DB_USER:-filesender}
 DB_PASSWORD=${DB_PASSWORD:-filesender}
+
+if [ "$DB_TYPE" = "mysql" ]; then
+  # default port for mysql
+  DB_PORT=${DB_PORT:-3306}
+else
+  # default port for postgresql
+  DB_PORT=${DB_PORT:-5432}
+fi
 
 function sed_file {
   if [ "$2" = "" ]; then
@@ -41,6 +50,8 @@ function sed_file {
     -e "s|{FILESENDER_AUTHTYPE}|${FILESENDER_AUTHTYPE}|g" \
     -e "s|{FILESENDER_AUTHSAML}|${FILESENDER_AUTHSAML}|g" \
     -e "s|{DB_HOST}|${DB_HOST}|g" \
+    -e "s|{DB_PORT}|${DB_PORT}|g" \
+    -e "s|{DB_TYPE}|${DB_TYPE}|g" \
     -e "s|{DB_NAME}|${DB_NAME}|g" \
     -e "s|{DB_USER}|${DB_USER}|g" \
     -e "s|{DB_PASSWORD}|${DB_PASSWORD}|g" \
@@ -146,13 +157,14 @@ else
   sed_file ${TEMPLATE_DIR}/filesender/config-v${FILESENDER_SERIES}.php ${FILESENDER_DIR}/config/config.php
 fi
 
-if [ -e /usr/bin/mysql ]; then
-  RESULT=`nc -z -w1 ${DB_HOST} 3306 && echo 1 || echo 0`
+# setup database
+if [ -e /bin/nc ]; then
+  RESULT=`nc -z -w1 ${DB_HOST} ${DB_PORT} && echo 1 || echo 0`
 
   while [ $RESULT -ne 1 ]; do
     echo " **** Database is not responding, waiting... **** "
     sleep 5
-    RESULT=`nc -z -w1 ${DB_HOST} 3306 && echo 1 || echo 0`
+    RESULT=`nc -z -w1 ${DB_HOST} ${DB_PORT} && echo 1 || echo 0`
   done
 
   if [ "$FILESENDER_SERIES" = "1" ]; then

@@ -1,4 +1,4 @@
-FROM uazlibraries/debian-php-fpm:latest
+FROM uazlibraries/debian-php-fpm:debian9-php-fpm7.0
 
 ENV FILESENDER_V=2.0-beta4 SSP_V=1.15.0
 
