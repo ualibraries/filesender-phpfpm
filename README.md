@@ -1,4 +1,4 @@
-# filesender-phpfpm:2.0-beta3 #
+# filesender-phpfpm:devel #
 
 - [Introduction](#introduction)
 - [Dependencies](#dependencies)
@@ -40,7 +40,9 @@ The following environment variables control the docker setup:
   * shibboleth - the fastcgi environment variable containing the attribute value.
   * simplesamlphp - the saml attribute name to use.
   * fake - the actual value to use
+* DB_TYPE - the database type to use, allowed values are pgsql and mysql. Defaults to mysql.
 * DB_HOST - the database hostname to connect to.
+* DB_PORT - the database port to connect to. Defaults to 3306 for mysql, 5432 for pgsql
 * DB_NAME - the database namespace to install filesender tables into
 * DB_USER - the database user to connecto the database system with
 * DB_PASSWORD - the database user password
