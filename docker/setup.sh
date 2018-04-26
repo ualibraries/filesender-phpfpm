@@ -46,6 +46,9 @@ function sed_file {
     DSTFILE="$2"
   fi
 
+  cat "$SRCFILE" | sed \
+    -e "s|{FILESENDER_URL}|${FILESENDER_URL}|g" \
+    -e "s|{FILESENDER_LOGOUT_URL}|${FILESENDER_LOGOUT_URL}|g" \
     -e "s|{FILESENDER_STORAGE}|${FILESENDER_STORAGE}|g" \
     -e "s|{FILESENDER_AUTHTYPE}|${FILESENDER_AUTHTYPE}|g" \
     -e "s|{FILESENDER_AUTHSAML}|${FILESENDER_AUTHSAML}|g" \
@@ -158,7 +161,7 @@ else
 fi
 
 # setup database
-if [ -e /bin/nc ]; then
+if [ "`which nc`" != "" ]; then
   RESULT=`nc -z -w1 ${DB_HOST} ${DB_PORT} && echo 1 || echo 0`
 
   while [ $RESULT -ne 1 ]; do
