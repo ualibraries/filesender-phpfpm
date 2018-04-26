@@ -19,6 +19,7 @@ services:
     restart: always
     links:
       - db-host
+      - selenium
     environment:
       - SMTP_SERVER=smtp.gmail.com:587
       - SMTP_TLS=true
@@ -35,21 +36,27 @@ services:
       - DB_HOST=db-host
       - DB_TYPE=pgsql
       - DB_NAME=filesender
-      - DB_USER=filesender
-      - DB_PASSWORD=filesender
+      - DB_USER=postgres
+      - DB_PASSWORD=password
     volumes:
       - run.php:/run/php
       - ./filesender:/opt/filesender
       - simplesaml:/opt/simplesamlphp
       - ./simplesamlphp/config/authsources.php:/opt/simplesamlphp/config/authsources.php
 
+  selenium:
+    image: 'selenium/standalone-firefox:2.53.0'
+    restart: always
+    ports:
+      - "4444:4444"
+
   db-host:
     image: 'postgres:10.3'
     restart: always
     environment:
       - POSTGRES_DB=filesender
-      - POSTGRES_USER=filesender
-      - POSTGRES_PASSWORD=filesender
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
 
 volumes:
   run.php:
