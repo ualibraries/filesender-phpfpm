@@ -7,7 +7,8 @@ cd /opt && \
 curl -kL https://github.com/filesender/filesender/archive/filesender-$FILESENDER_V.tar.gz | tar xz && \
 mv filesender-filesender-$FILESENDER_V filesender && \
 curl -L https://github.com/simplesamlphp/simplesamlphp/releases/download/v${SSP_V}/simplesamlphp-${SSP_V}.tar.gz | tar xz && \
-mv simplesamlphp-${SSP_V} simplesamlphp
+mv simplesamlphp-${SSP_V} simplesamlphp && \
+cp -fv simplesamlphp/config-templates/* simplesamlphp/config
 
 # Add filesender and simplesamlphp configuration to /opt/conf
 ADD template /opt/template
