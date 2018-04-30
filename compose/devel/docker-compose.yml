@@ -6,6 +6,7 @@ services:
     tty: true
     links:
       - fpm
+      - selenium
     ports:
       - "80:80"
     volumes:
@@ -33,6 +34,7 @@ services:
       - FILESENDER_STORAGE=FilesystemPreserveName
       - FILESENDER_AUTHTYPE=saml
       - FILESENDER_AUTHSAML=static-user
+      - SELENIUM_HOST=http://localhost:4444/wd/hub
       - DB_HOST=db-host
       - DB_TYPE=pgsql
       - DB_NAME=filesender
@@ -45,10 +47,13 @@ services:
       - ./simplesamlphp/config/authsources.php:/opt/simplesamlphp/config/authsources.php
 
   selenium:
-    image: 'selenium/standalone-firefox:2.53.0'
+    image: 'selenium/standalone-chrome-debug:3.11.0-dysprosium'
     restart: always
     ports:
       - "4444:4444"
+      - "5999:5900"
+    volumes:
+      - /dev/shm:/dev/shm
 
   db-host:
     image: 'postgres:10.3'
@@ -61,3 +66,5 @@ services:
 volumes:
   run.php:
   simplesaml:
+
+#    image: 'selenium/standalone-firefox:2.53.0'
