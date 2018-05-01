@@ -313,6 +313,6 @@ $config['auth_sp_shibboleth_name_attribute'] = '{NAME_ATTR}';
 
 # fake authentication configuration
 $config['auth_sp_fake_authenticated'] = true;
-$config['auth_sp_fake_email'] = '{MAIL_ATTR}';
-$config['auth_sp_fake_uid'] = '{UID_ATTR}';
-$config['auth_sp_fake_name'] = '{NAME_ATTR}';
+$config['auth_sp_fake_uid'] = '1';
+$config['auth_sp_fake_email'] = 'peter@codebridge.nl';
+$config['auth_sp_fake_name'] = 'Peter';
