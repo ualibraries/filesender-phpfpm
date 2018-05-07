@@ -1,11 +1,10 @@
 FROM uazlibraries/debian-php-fpm:debian9-php-fpm7.0
 
-ENV FILESENDER_V=2.0-beta4 SSP_V=1.14.2
+ENV FILESENDER_V=2.0-directory-tree-upload FILESENDER_GIT=https://github.com/glbrimhall/filesender.git SSP_V=1.14.2
 
 RUN \
 cd /opt && \
-curl -kL https://github.com/filesender/filesender/archive/filesender-$FILESENDER_V.tar.gz | tar xz && \
-mv filesender-filesender-$FILESENDER_V filesender && \
+git clone -b ${FILESENDER_V#*-} ${FILESENDER_GIT} && \
 curl -L https://github.com/simplesamlphp/simplesamlphp/releases/download/v${SSP_V}/simplesamlphp-${SSP_V}.tar.gz | tar xz && \
 mv simplesamlphp-${SSP_V} simplesamlphp && \
 cp -fv simplesamlphp/config-templates/* simplesamlphp/config
