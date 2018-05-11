@@ -67,7 +67,7 @@ To test out filesender using simplesamlphp authentication, run the following com
 
 ```
 	
-	git clone https://github.com/ualibraries/filesender-phpfpm.git
+	git clone -b devel https://github.com/ualibraries/filesender-phpfpm.git
 	cd filesender-phpfpm/compose/simplesaml
 	docker-compose up
 	
@@ -79,7 +79,7 @@ To cleanup the above test instance, run:
 
 ```
 	
-	git clone https://github.com/ualibraries/filesender-phpfpm.git
+	git clone -b devel https://github.com/ualibraries/filesender-phpfpm.git
 	cd filesender-phpfpm/compose/simplesaml
 	docker-compose rm -fsv
 	docker volume prune  # Enter y
@@ -102,7 +102,7 @@ To test out filesender using shibboleth authentication, run the following comman
 
 ```
 	
-	git clone https://github.com/ualibraries/filesender-phpfpm.git
+	git clone -b devel https://github.com/ualibraries/filesender-phpfpm.git
 	cd filesender-phpfpm/compose/shibboleth
 	./setup-shib.sh
 	
@@ -114,7 +114,7 @@ To cleanup the above test instance, run:
 
 ```
 	
-	git clone https://github.com/ualibraries/filesender-phpfpm.git
+	git clone -b devel https://github.com/ualibraries/filesender-phpfpm.git
 	cd filesender-phpfpm/compose/shibboleth
 	docker-compose rm -fsv
 	docker volume prune  # Enter y
