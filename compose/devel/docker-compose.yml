@@ -6,6 +6,7 @@ services:
     tty: true
     links:
       - fpm
+      - selenium
     ports:
       - "80:80"
     volumes:
@@ -15,10 +16,11 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    image: 'uazlibraries/filesender-phpfpm:latest'
+    image: 'uazlibraries/filesender-phpfpm:devel'
     restart: always
     links:
       - db-host
+      - selenium
     environment:
       - SMTP_SERVER=smtp.gmail.com:587
       - SMTP_TLS=true
@@ -32,26 +34,37 @@ services:
       - FILESENDER_STORAGE=FilesystemPreserveName
       - FILESENDER_AUTHTYPE=saml
       - FILESENDER_AUTHSAML=static-user
+      - SELENIUM_HOST=http://localhost:4444/wd/hub
       - DB_HOST=db-host
+      - DB_TYPE=pgsql
       - DB_NAME=filesender
-      - DB_USER=filesender
-      - DB_PASSWORD=filesender
+      - DB_USER=postgres
+      - DB_PASSWORD=password
     volumes:
       - run.php:/run/php
       - ./filesender:/opt/filesender
       - simplesaml:/opt/simplesamlphp
       - ./simplesamlphp/config/authsources.php:/opt/simplesamlphp/config/authsources.php
 
+  selenium:
+    image: 'selenium/standalone-chrome-debug:3.11.0-dysprosium'
+    restart: always
+    ports:
+      - "4444:4444"
+      - "5999:5900"
+    volumes:
+      - /dev/shm:/dev/shm
+
   db-host:
-    image: 'mysql'
+    image: 'postgres:10.3'
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=insecure
-      - MYSQL_DATABASE=filesender
-      - MYSQL_USER=filesender
-      - MYSQL_PASSWORD=filesender
-      - MYSQL_ALLOW_EMPTY_PASSWORD='false'
+      - POSTGRES_DB=filesender
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
 
 volumes:
   run.php:
   simplesaml:
+
+#    image: 'selenium/standalone-firefox:2.53.0'

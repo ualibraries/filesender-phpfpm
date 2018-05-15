@@ -141,10 +141,10 @@ public function loadConfig() {
 	$config['site_simplesamllocation'] = '/opt/simplesamlphp/';
 	$config['log_location'] = '/opt/filesender/log/';
 
-	$config["db_type"] = "mysql";// pgsql or mysql
+	$config["db_type"] = "{DB_TYPE}";// pgsql or mysql
 	$config['db_host'] = '{DB_HOST}';
 	$config['db_database'] = '{DB_NAME}';
-	$config['db_port'] = '3306';
+	$config['db_port'] = '{DB_PORT}';
 	// database username and password
 	$config['db_username'] = '{DB_USER}';
 	$config['db_password'] = '{DB_PASSWORD}';

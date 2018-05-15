@@ -100,9 +100,9 @@ $config = array(
 
     'static-user' => array(
         'exampleauth:Static',
-        'uid' => array('fakeuser'),
-        'eduPersonPrincipalName' => array('fakeuser'),
-        'mail' => array('dockertestfilesender@gmail.com'),
+        'uid' => array('testdriver@localhost.localdomain'),
+        'eduPersonPrincipalName' => array('testdriver'),
+        'mail' => array('testdriver@localhost.localdomain'),
         'eduPersonAffiliation' => array('member', 'employee'),
         'cn' => array('Fake User'),
     ),

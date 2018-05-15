@@ -88,7 +88,7 @@ $config['autocomplete'] = 10;					// show previously used email addresses in To:
 $config['autocomplete_max_pool'] = 1;				// how many values are stored in database.  Default is 5.
 $config['autocomplete_min_characters'] = 2;		// Optional.  Default 3.  How many characters to type before autocomplete list is triggered 
 $config['upload_display_bits_per_sec'] = false;		
-
+$config['valid_filename_regex'] = '^[ \\/\\p{L}\\p{N}_\\.,;:!@#$%^&*)(\\]\\[_-]+$';
 
 
 // --------------------------------------------------
@@ -255,7 +255,7 @@ $config['guest_options'] = array(
 // ---------------------------------------------
 //              DB configuration
 // ---------------------------------------------
-$config["db_type"] ='mysql';       // String, pgsql or mysql
+$config["db_type"] ='{DB_TYPE}';       // String, pgsql or mysql
 $config['db_host'] ='{DB_HOST}';       // String, database host 
 $config['db_database'] ='{DB_NAME}';   // String, database name
 $config['db_username'] ='{DB_USER}';   // String, database username
@@ -313,6 +313,6 @@ $config['auth_sp_shibboleth_name_attribute'] = '{NAME_ATTR}';
 
 # fake authentication configuration
 $config['auth_sp_fake_authenticated'] = true;
-$config['auth_sp_fake_email'] = '{MAIL_ATTR}';
-$config['auth_sp_fake_uid'] = '{UID_ATTR}';
-$config['auth_sp_fake_name'] = '{NAME_ATTR}';
+$config['auth_sp_fake_uid'] = '1';
+$config['auth_sp_fake_email'] = 'peter@codebridge.nl';
+$config['auth_sp_fake_name'] = 'Peter';
