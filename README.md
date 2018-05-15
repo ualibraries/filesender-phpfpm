@@ -1,4 +1,4 @@
-# filesender-phpfpm:2.0-beta3 #
+# filesender-phpfpm:2.0-beta4 #
 
 - [Introduction](#introduction)
 - [Dependencies](#dependencies)
@@ -130,17 +130,17 @@ Four docker containers will be created, validate by running **docker ps -a**
 
 If you have a DNS name pointing to a public IP, run:
 
-[./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta3/compose/shibboleth/setup-shib.sh) *dns_name*
+[./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta4/compose/shibboleth/setup-shib.sh) *dns_name*
 
 Otherwise, just run in the shell
 
-[./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta3/compose/shibboleth/setup-shib.sh)
+[./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta4/compose/shibboleth/setup-shib.sh)
 
 It will attempt to auto-calculate your public IP address.
 
-After running, follow the instructions [./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta3/compose/shibboleth/setup-shib.sh) gives to [REGISTER](http://www.testshib.org/register.html) your shibboleth instance at testshib.org.
+After running, follow the instructions [./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta4/compose/shibboleth/setup-shib.sh) gives to [REGISTER](http://www.testshib.org/register.html) your shibboleth instance at testshib.org.
 
-Finally, browse to the URL given at the end of [./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta3/compose/shibboleth/setup-shib.sh)
+Finally, browse to the URL given at the end of [./setup-shib.sh](https://github.com/ualibraries/filesender-phpfpm/blob/2.0-beta4/compose/shibboleth/setup-shib.sh)
 
 A public IP address is needed for the remote shibboleth-idp to send responses back to the local shibboleth-sp through nginx. If the docker image is running on a [private IP](https://en.wikipedia.org/wiki/Private_network) behind a router NAT, it is possible for the router to forward the shibboleth-idp responses through https to the private IP as long as the router has been given a public IP.
 
