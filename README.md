@@ -1,4 +1,4 @@
-# filesender-phpfpm:2.0-beta4 #
+# filesender-phpfpm:2.0-rc1 #
 
 - [Introduction](#introduction)
 - [Dependencies](#dependencies)
