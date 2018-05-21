@@ -34,7 +34,7 @@ services:
       - FILESENDER_STORAGE=FilesystemPreserveName
       - FILESENDER_AUTHTYPE=saml
       - FILESENDER_AUTHSAML=static-user
-      - SELENIUM_HOST=http://localhost:4444/wd/hub
+      - SELENIUM_HOST=http://selenium:4444/wd/hub
       - DB_HOST=db-host
       - DB_TYPE=pgsql
       - DB_NAME=filesender
