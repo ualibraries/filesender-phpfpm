@@ -3,7 +3,7 @@ set -x
 
 NETWORK=${5:-host}
 
-TAG=${4:-2.0}
+TAG=${4:-2.1}
 CONTAINER=${3:-filsender-test}
 REPOSITORY=${2:-filesender-phpfpm}
 ACTION=${1:-BUILD}
