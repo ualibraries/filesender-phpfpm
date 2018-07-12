@@ -54,6 +54,7 @@ $config['admin_email'] ='{ADMIN_EMAIL}';       // String, email  address(es, sep
                                     			// to receive administrative messages (low disk  space warning)
 
 $config['session_cookie_path'] = '/';
+$config['disable_directory_upload'] = false;
 
 // ---------------------------------------------
 //              Language settings

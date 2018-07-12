@@ -1,6 +1,6 @@
 FROM uazlibraries/debian-php-fpm:debian9-php-fpm7.0
 
-ENV FILESENDER_V=2.0-directory-tree-upload FILESENDER_GIT=https://github.com/glbrimhall/filesender.git SSP_V=1.14.2
+ENV FILESENDER_V=2.0-issue-342-fix FILESENDER_GIT=https://github.com/glbrimhall/filesender.git SSP_V=1.14.2
 
 RUN \
 cd /opt && \
