@@ -13,11 +13,13 @@ cp -fv simplesamlphp/config-templates/* simplesamlphp/config
 ADD template /opt/template
 
 # Ensure correct runtime permissions - php-fpm runs as www-data
-RUN chown -R www-data.www-data /opt/*
+RUN mkdir /data && \
+chown -R www-data.www-data /data && \
+chown -R www-data.www-data /opt/*
 
 # Add setup and startup config files to /
 ADD docker/* /
 
-VOLUME ["/opt/filesender", "/opt/simplesamlphp"]
+VOLUME ["/opt/filesender", "/opt/simplesamlphp", "/data"]
 
 CMD ["/entrypoint.sh"]
