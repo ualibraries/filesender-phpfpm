@@ -203,4 +203,5 @@ if [ "$NEW_UID" != "" ]; then
   usermod -u $NEW_UID $USER
   find / -type d -path /proc -prune -o -group $GROUP_ID -exec chgrp -h $USER {} \;
   find / -type d -path /proc -prune -o -user $USER_ID -exec chown -h $USER {} \;
+  chown -R $USER.$USER /data
 fi
