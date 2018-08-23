@@ -18,7 +18,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
 
   fpm:
-    image: 'uazlibraries/filesender-phpfpm:2.1'
+    image: 'uazlibraries/filesender-phpfpm:2.2'
     restart: always
     links:
       - db-host

@@ -1,4 +1,4 @@
-# filesender-phpfpm:2.1 #
+# filesender-phpfpm:2.2 #
 
 - [Introduction](#introduction)
 - [Dependencies](#dependencies)
