@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert -f docker-compose.yml
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: web
+  name: web
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: web
+    spec:
+      containers:
+      - image: uazlibraries/nginx-shibboleth
+        name: web
+        ports:
+        - containerPort: 80
+        resources: {}
+        tty: true
+        volumeMounts:
+        - mountPath: /run/php
+          name: run.php
+        - mountPath: /opt/filesender
+          name: filesender
+        - mountPath: /opt/simplesamlphp
+          name: simplesaml
+        - mountPath: /etc/nginx/conf.d
+          name: web-claim3
+      restartPolicy: Always
+      volumes:
+      - name: run.php
+        persistentVolumeClaim:
+          claimName: run.php
+      - name: filesender
+        persistentVolumeClaim:
+          claimName: filesender
+      - name: simplesaml
+        persistentVolumeClaim:
+          claimName: simplesaml
+      - name: web-claim3
+        persistentVolumeClaim:
+          claimName: web-claim3
+status: {}

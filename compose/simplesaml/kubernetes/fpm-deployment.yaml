@@ -1,0 +1,75 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert -f docker-compose.yml
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: fpm
+  name: fpm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: fpm
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_EMAIL
+          value: dockertestfilesender@gmail.com
+        - name: ADMIN_PSWD
+          value: password
+        - name: DB_HOST
+          value: db-host
+        - name: DB_NAME
+          value: filesender
+        - name: DB_PASSWORD
+          value: filesender
+        - name: DB_USER
+          value: filesender
+        - name: FILESENDER_AUTHSAML
+          value: static-user
+        - name: FILESENDER_AUTHTYPE
+          value: saml
+        - name: FILESENDER_URL
+          value: http://localhost
+        - name: SMTP_PSWD
+          value: thisisalongpassword
+        - name: SMTP_SERVER
+          value: smtp.gmail.com:587
+        - name: SMTP_TLS
+          value: "true"
+        - name: SMTP_USER
+          value: dockertestfilesender
+        image: uazlibraries/filesender-phpfpm:2.2
+        name: fpm
+        resources: {}
+        volumeMounts:
+        - mountPath: /run/php
+          name: run.php
+        - mountPath: /opt/filesender
+          name: filesender
+        - mountPath: /opt/simplesamlphp
+          name: simplesaml
+        - mountPath: /opt/simplesamlphp/config/authsources.php
+          name: fpm-claim3
+      restartPolicy: Always
+      volumes:
+      - name: run.php
+        persistentVolumeClaim:
+          claimName: run.php
+      - name: filesender
+        persistentVolumeClaim:
+          claimName: filesender
+      - name: simplesaml
+        persistentVolumeClaim:
+          claimName: simplesaml
+      - name: fpm-claim3
+        persistentVolumeClaim:
+          claimName: fpm-claim3
+status: {}
