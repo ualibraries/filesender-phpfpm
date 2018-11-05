@@ -40,6 +40,13 @@ The following environment variables control the docker setup:
   * shibboleth - the fastcgi environment variable containing the attribute value.
   * simplesamlphp - the saml attribute name to use.
   * fake - the actual value to use
+* FILESENDER_STORAGE - specified the storage type to use:
+  * Filesystem - default: store files on local filesystem using abstract guid names. 
+  * FilesystemChunked - like filesystem, except store a file as it's chunked parts. 
+  * FilesystemPreserveName - store files on the local filesystem under the logged in username, preserving the original client side structure.
+  * FilesystemAzure - store files in Azure, *alpha* feature.
+  * FilesystemS3 - store files in S3, *alpha* feature.
+* FILESENDER_DOCKER_STORE - specify the docker storage location for non-cloud storage types. Defaults to a locally created volume.
 * DB_TYPE - the database type to use, allowed values are pgsql and mysql. Defaults to mysql.
 * DB_HOST - the database hostname to connect to.
 * DB_PORT - the database port to connect to. Defaults to 3306 for mysql, 5432 for pgsql
