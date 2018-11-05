@@ -29,7 +29,7 @@ services:
       - FILESENDER_URL=http://localhost
       - FILESENDER_AUTHTYPE=saml
       - FILESENDER_AUTHSAML=static-user
-      - FILESENDER_STORAGE=Filesystem
+      - FILESENDER_STORAGE=${FILESENDER_STORAGE:-Filesystem}
       - DB_HOST=db-host
       - DB_NAME=filesender
       - DB_USER=filesender
